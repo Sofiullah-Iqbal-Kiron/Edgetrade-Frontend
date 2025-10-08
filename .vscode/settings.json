@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
         "Edgetrade",
-        "shadcn"
-    ]
+        "shadcn",
+        "Topbar"
+    ],
+    "kiroAgent.configureMCP": "Disabled"
 }

@@ -1,7 +1,7 @@
-// This sidebar component is only visible on desktop devices.
+// // This sidebar component is only visible on desktop devices.
 
-"use client"
+// "use client"
 
 
-// react
-import * as React from "react"
+// // react
+// import * as React from "react"

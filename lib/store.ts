@@ -1,6 +1,6 @@
 // 3'rd party
 import { create } from "zustand"
-import { persist, createJSONStorage } from "zustand/middleware"
+// import { persist, createJSONStorage } from "zustand/middleware"
 
 // local
 import { NavType } from "@/lib/types"
@@ -14,15 +14,6 @@ interface activeNavStoreState {
 export const useActiveNavStore = create<activeNavStoreState>((set) => ({
     activeNav: "Market",
     setActiveNav: (nav) => set({ activeNav: nav })
-}))
-
-interface CurrentDateStoreState {
-    currentDate: Date
-    setCurrentDate: (date: Date) => void
-}
-export const useCurrentDateStore = create<CurrentDateStoreState>((set) => ({
-    currentDate: new Date(),
-    setCurrentDate: (date: Date) => set({ currentDate: date }),
 }))
 
 // interface AuthStoreState {

@@ -26,14 +26,11 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="text-center px-2 py-4 flex flex-col">
-        <span className="text-xl">
-          Edgetrade Inc.
-        </span>
-        <span className="text-sm">
+      {/* <footer>
+        <span className="w-full bg-slate-900 text-center">
           All rights reserved.
         </span>
-      </footer>
+      </footer> */}
     </div>
   )
 }
