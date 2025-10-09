@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export default function Home() {
   return (
-    <div className="flex flex-col">
+    <div className="min-h-dvh flex flex-col">
       {/* <header className="p-4"> */}
       {/* </header> */}
 

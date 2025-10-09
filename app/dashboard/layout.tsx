@@ -9,7 +9,7 @@ interface Props {
 
 export default function DashboardLayout({ children }: Props) {
   return (
-    <div>
+    <div className="min-h-dvh flex flex-col p-dashboard">
       <Topbar />
       {children}
       <BottomTab />

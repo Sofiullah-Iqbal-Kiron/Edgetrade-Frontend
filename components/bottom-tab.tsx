@@ -30,7 +30,7 @@ function BottomTab() {
     const { activeNav, setActiveNav } = useActiveNavStore()
 
     return (
-        <nav className="md:hidden fixed inset-x-0 bottom-0 bg-primary z-50">
+        <nav className="md:hidden fixed inset-x-0 bottom-0 bg-primary rounded-t-2xl shadow z-50">
             <div className="flex flex-row justify-around items-center h-16">
                 {tabs.map((tab, idx) => {
                     const Icon = tab.icon
@@ -40,7 +40,7 @@ function BottomTab() {
                         <Link key={`nav-${idx}`} href={tab.link}>
                             <button
                                 onClick={() => setActiveNav(tab.label as NavType)}
-                                className="flex flex-col justify-center items-center flex-1 h-full gap-1"
+                                className="flex flex-col justify-center items-center h-full gap-1"
                             >
                                 <Icon className={`w-6 h-6 transition-all ${isActive ? "text-primary-foreground" : "text-accent-foreground"}`} strokeWidth={isActive ? 2.5 : 1.5} />
                                 <span className={`text-xs transition-all ${isActive ? "text-primary-foreground font-semibold" : "text-accent-foreground font-medium"}`}>{tab.label}</span>
