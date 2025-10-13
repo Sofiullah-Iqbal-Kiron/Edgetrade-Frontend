@@ -2,7 +2,7 @@
 import Link from "next/link"
 
 
-export default function Home() {
+export default function SignUp() {
   return (
     <div className="min-h-dvh flex flex-col">
       {/* <header className="p-4"> */}

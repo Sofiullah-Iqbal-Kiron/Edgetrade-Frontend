@@ -2,6 +2,9 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
+// shadcn/ui
+import { Toaster } from "@/components/ui/sonner"
+
 // local
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -33,8 +36,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
