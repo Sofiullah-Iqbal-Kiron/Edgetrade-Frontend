@@ -1,0 +1,4 @@
+[+] Add countries field from https://restcountries.com/v3.1/all?fields=name,flag
+[+] Change security to HttpOnly cookies.
+[+] Setup axios interceptors.
+[+] Know about token lifetime.

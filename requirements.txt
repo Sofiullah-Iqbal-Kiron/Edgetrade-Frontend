@@ -1,0 +1,1 @@
+[+] Return registration response with refresh and access token.

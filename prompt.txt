@@ -1,0 +1,11 @@
+Now implement the Signup(Register) page.
+
+6 fields:
+- email (email field, required)
+- username (non spaced string field, required)
+- password (standard password field)
+- full_name (string field, optional)
+- phone (string field, optional)
+- country (string field, optional)
+
+Follow same design and code writing standard as signin page using Shadcn/ui + NextJS 15 + React Hook Form + SWR. Follow updated best practices from Shadcn/ui.

@@ -1,0 +1,14 @@
+const FIRST_NAME_FIELD_NAME = "first_name"
+const LAST_NAME_FIELD_NAME = "last_name"
+const EMAIL_FIELD_NAME = "email"
+const PHONE_NUMBER_FIELD_NAME = "phone"
+const PASSWORD_FIELD_NAME = "password"
+
+
+export {
+    FIRST_NAME_FIELD_NAME,
+    LAST_NAME_FIELD_NAME,
+    EMAIL_FIELD_NAME,
+    PHONE_NUMBER_FIELD_NAME,
+    PASSWORD_FIELD_NAME,
+}

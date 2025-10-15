@@ -1,39 +1,87 @@
-// next js
+"use client"
+
+
+// react
+import { useId } from "react"
+
+// nextjs
 import Link from "next/link"
+
+// 3'rd party
+// import useSWR from "swr"
+import { toast } from "sonner"
+import { useForm, SubmitHandler } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+// shadcn/ui
+import { FieldGroup } from "@/components/ui/field"
+import {
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+// local
+import { SignUpSchema, type SignUpSchemaType } from "@/lib/schemas"
+import {
+  FormContainer,
+  FirstNameField,
+  LastNameField,
+  EmailField,
+  PasswordField,
+  PhoneNumberField,
+} from "@/components/form-fields"
 
 
 export default function SignUp() {
+  const id = useId()
+
+  const { control, handleSubmit } = useForm<SignUpSchemaType>({
+    resolver: zodResolver(SignUpSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      first_name: "",
+      last_name: "",
+      phone: "",
+    },
+  })
+
+  const onSubmit: SubmitHandler<SignUpSchemaType> = (data: SignUpSchemaType) => {
+    toast.success(JSON.stringify(data))
+    // toast.promise(
+    //   new Promise((resolve) => setTimeout(resolve, 1200)),
+    //   {
+    //     loading: "Creating account...",
+    //     success: "Account created successfully!",
+    //     error: "Something went wrong.",
+    //   }
+    // )
+  }
+
+  function HeadComponent() {
+    return (
+      <CardHeader className="text-center">
+        <CardTitle>Edge Trade Register</CardTitle>
+        <CardDescription className="flex justify-center items-center space-x-1.5">
+          <span>Already have an account?</span>
+          <Link href="/signin" className="underline underline-offset-2 text-primary">Signin</Link>
+        </CardDescription>
+      </CardHeader>
+    )
+  }
+
   return (
-    <div className="min-h-dvh flex flex-col">
-      {/* <header className="p-4"> */}
-      {/* </header> */}
-
-      <main className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Edgetrade Inc.
-        </h1>
-        <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl">
-          The ultimate trading platform to make you win
-        </p>
-
-        <div className="flex gap-4">
-          <Link href="/dashboard" className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
-            Get Started
-          </Link>
-          <button className="border border-border px-6 py-3 rounded-lg font-semibold hover:bg-accent transition-colors">
-            Learn More
-          </button>
-        </div>
-      </main>
-
-      <footer className="text-center px-2 py-4 flex flex-col">
-        <span className="text-xl">
-          Edgetrade Inc.
-        </span>
-        <span className="text-sm">
-          All rights reserved.
-        </span>
-      </footer>
-    </div>
+    <FormContainer formId={`signup-form-${id}`} headComponent={<HeadComponent />} submitButtonLabel="Sign Up">
+      <form id={`signup-form-${id}`} onSubmit={handleSubmit(onSubmit)}>
+        <FieldGroup>
+          <FirstNameField control={control} />
+          <LastNameField control={control} />
+          <PhoneNumberField control={control} />
+          <EmailField control={control} />
+          <PasswordField control={control} />
+        </FieldGroup>
+      </form>
+    </FormContainer>
   )
 }
