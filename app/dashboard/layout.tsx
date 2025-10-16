@@ -1,6 +1,5 @@
 // local
-import { Topbar } from "@/components/topbar"
-import { BottomTab } from "@/components/bottom-tab"
+import { BottomNav } from "@/components/navs"
 
 
 interface Props {
@@ -9,10 +8,9 @@ interface Props {
 
 export default function DashboardLayout({ children }: Props) {
   return (
-    <div className="min-h-dvh flex flex-col p-dashboard">
-      <Topbar />
+    <div className="min-h-dvh flex flex-col px-2.5 pt-3 pb-[3.5rem]">
       {children}
-      <BottomTab />
+      <BottomNav />
     </div>
   )
 }

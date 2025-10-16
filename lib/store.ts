@@ -3,7 +3,7 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 
 // local
-import { NavType } from "@/lib/types"
+import { NavType, MarketTabType } from "@/lib/types"
 
 
 interface ActiveNavStoreState {
@@ -11,7 +11,7 @@ interface ActiveNavStoreState {
     setActiveNav: (nav: NavType) => void
     resetActiveNav: () => void
 }
-export const useActiveNavStore = create<ActiveNavStoreState>()(
+const useActiveNavStore = create<ActiveNavStoreState>()(
     persist(
         (set) => ({
             activeNav: "Market",
@@ -23,6 +23,27 @@ export const useActiveNavStore = create<ActiveNavStoreState>()(
             name: "latest-active-nav-state-storage",
             storage: createJSONStorage(() => localStorage),  // Ensures JSON format.
             partialize: (state) => ({ activeNav: state.activeNav }),  // Persist only the needed field.
+        }
+    )
+)
+
+interface MarketTabStoreState {
+    activeMarketTab: MarketTabType
+    setActiveMarketTab: (nav: MarketTabType) => void
+    resetActiveMarketTab: () => void
+}
+const useActiveMarketTabStore = create<MarketTabStoreState>()(
+    persist(
+        (set) => ({
+            activeMarketTab: "All",
+            setActiveMarketTab: (nav) => set({ activeMarketTab: nav }),
+            resetActiveMarketTab: () => set({ activeMarketTab: "All" }),
+        }),
+        {
+            version: 1,
+            name: "latest-active-market-tab-state-storage",
+            storage: createJSONStorage(() => localStorage),  // Ensures JSON format.
+            partialize: (state) => ({ activeMarketTab: state.activeMarketTab }),  // Persist only the needed field.
         }
     )
 )
@@ -63,7 +84,11 @@ export const useActiveNavStore = create<ActiveNavStoreState>()(
 const selector = {
     activeNav: (s: ActiveNavStoreState) => s.activeNav,
     setActiveNav: (s: ActiveNavStoreState) => s.setActiveNav,
+    activeMarketTab: (s: MarketTabStoreState) => s.activeMarketTab,
+    setActiveMarketTab: (s: MarketTabStoreState) => s.setActiveMarketTab,
 }
 
 export const useActiveNav = () => useActiveNavStore(selector.activeNav)
 export const useSetActiveNav = () => useActiveNavStore(selector.setActiveNav)
+export const useActiveMarketTab = () => useActiveMarketTabStore(selector.activeMarketTab)
+export const useSetActiveMarketTab = () => useActiveMarketTabStore(selector.setActiveMarketTab)

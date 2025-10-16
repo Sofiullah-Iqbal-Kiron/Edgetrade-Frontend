@@ -1,0 +1,47 @@
+"use client"
+
+// shadcn/ui
+import { Button } from "@/components/ui/button"
+
+// local
+import { MarketTabType } from "@/lib/types"
+import { useActiveMarketTab, useSetActiveMarketTab } from "@/lib/store"
+
+
+type TabType = {
+    label: MarketTabType,
+}
+
+const tabs: Array<TabType> = [
+    { label: "All" },
+    { label: "Watchlist" },
+    { label: "Index" },
+    { label: "Exchange" },
+    { label: "Commodity" },
+    { label: "Stock" },
+]
+
+export default function MarketTabs() {
+    const activeMarketTab = useActiveMarketTab()
+    const setActiveMarketTab = useSetActiveMarketTab()
+
+    return (
+        <div className="bg-primary/30 p-2 grid grid-cols-3 gap-x-4 gap-y-2 rounded-2xl">
+            {tabs.map((tab, idx) => {
+                const isActiveTab = activeMarketTab === tab.label
+
+                return (
+                    <Button
+                        key={`market-tab-${idx}`}
+                        size="sm"
+                        variant={isActiveTab ? "default" : "secondary"}
+                        onClick={() => setActiveMarketTab(tab.label)}
+                        className="rounded-full font-bold"
+                    >
+                        {tab.label}
+                    </Button>
+                )
+            })}
+        </div>
+    )
+}
