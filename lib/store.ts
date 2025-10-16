@@ -1,20 +1,31 @@
 // 3'rd party
 import { create } from "zustand"
-// import { persist, createJSONStorage } from "zustand/middleware"
+import { persist, createJSONStorage } from "zustand/middleware"
 
 // local
 import { NavType } from "@/lib/types"
-// import { zustandSecureStorage } from "@/lib/storage"
 
 
-interface activeNavStoreState {
-    activeNav: NavType,
+interface ActiveNavStoreState {
+    activeNav: NavType
     setActiveNav: (nav: NavType) => void
+    resetActiveNav: () => void
 }
-export const useActiveNavStore = create<activeNavStoreState>((set) => ({
-    activeNav: "Market",
-    setActiveNav: (nav) => set({ activeNav: nav })
-}))
+export const useActiveNavStore = create<ActiveNavStoreState>()(
+    persist(
+        (set) => ({
+            activeNav: "Market",
+            setActiveNav: (nav) => set({ activeNav: nav }),
+            resetActiveNav: () => set({ activeNav: "Market" }),
+        }),
+        {
+            version: 1,
+            name: "latest-active-nav-state-storage",
+            storage: createJSONStorage(() => localStorage),  // Ensures JSON format.
+            partialize: (state) => ({ activeNav: state.activeNav }),  // Persist only the needed field.
+        }
+    )
+)
 
 // interface AuthStoreState {
 //     accessToken: string | null
@@ -49,12 +60,10 @@ export const useActiveNavStore = create<activeNavStoreState>((set) => ({
 //     )
 // )
 
-// const selector = {
-//     accessToken: (s: AuthStoreState) => s.accessToken,
-//     setAccessToken: (s: AuthStoreState) => s.setAccessToken,
-//     hasHydrated: (s: AuthStoreState) => s.hasHydrated,
-// }
+const selector = {
+    activeNav: (s: ActiveNavStoreState) => s.activeNav,
+    setActiveNav: (s: ActiveNavStoreState) => s.setActiveNav,
+}
 
-// export const useAccessToken = () => useAuthStore(selector.accessToken)
-// export const useSetAccessToken = () => useAuthStore(selector.setAccessToken)
-// export const useHasHydrated = () => useAuthStore(selector.hasHydrated)
+export const useActiveNav = () => useActiveNavStore(selector.activeNav)
+export const useSetActiveNav = () => useActiveNavStore(selector.setActiveNav)

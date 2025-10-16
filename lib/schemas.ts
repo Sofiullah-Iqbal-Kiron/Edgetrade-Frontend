@@ -16,6 +16,21 @@ const passwordField = z
     .regex(/[0-9]/, "Must contain at least one number.")
     .regex(/[!@#$%^&*(),.?\":{}|<>]/, "Must contain at least one special character.")
 
+const dateOfBirthField = z
+    .date()
+    // .refine(
+    //     (val) => {
+    //         if (!val) return true // skip if optional
+    //         const date = new Date(val)
+    //         const ageDiff = Date.now() - date.getTime()
+    //         const ageDate = new Date(ageDiff)
+    //         const age = Math.abs(ageDate.getUTCFullYear() - 1970)
+    //         return age >= 13 && age <= 120
+    //     },
+    //     { message: "Enter a valid date of birth (must be at least 13 years old)." }
+    // )
+    .optional()
+
 const optionalStringField = z.string().trim().optional()
 
 
@@ -25,6 +40,7 @@ const SignUpSchema = z.object({
     email: emailField,
     password: passwordField,
     phone: optionalStringField,
+    date_of_birth: dateOfBirthField,
 })
 type SignUpSchemaType = z.infer<typeof SignUpSchema>
 

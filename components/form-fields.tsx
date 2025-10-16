@@ -5,6 +5,7 @@
 import { useState, useId } from "react"
 
 // 3'rd party
+import { format } from "date-fns"
 import { Controller, Control } from "react-hook-form"
 import {
     Eye,
@@ -14,15 +15,22 @@ import {
     Mail as EmailIcon,
     Lock as PasswordIcon,
     Phone as PhoneIcon,
+    Calendar as CalendarIcon,
 } from "lucide-react"
 
 // shadcn/ui
 import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
     Card,
     CardContent,
     CardFooter,
 } from "@/components/ui/card"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import {
     Field,
     FieldError,
@@ -35,8 +43,10 @@ import {
 } from "@/components/ui/input-group"
 
 // local
+import { formatDate } from "@/lib/utils"
 import {
     EMAIL_FIELD_NAME,
+    DOB_FIELD_NAME,
     PHONE_NUMBER_FIELD_NAME,
     PASSWORD_FIELD_NAME,
     FIRST_NAME_FIELD_NAME,
@@ -150,7 +160,7 @@ function PhoneNumberField({ control }: FormFieldProps) {
                             {...field}
                             id={`phone-${id}`}
                             type="tel"
-                            autoComplete=""
+                            autoComplete="tel"
                             placeholder="Phone Number"
                             aria-invalid={fieldState.invalid}
                         />
@@ -188,6 +198,51 @@ function EmailField({ control }: FormFieldProps) {
                             <EmailIcon />
                         </InputGroupAddon>
                     </InputGroup>
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+            )}
+        />
+    )
+}
+
+function DateOfBirthField({ control }: FormFieldProps) {
+    const id = useId()
+
+    return (
+        <Controller
+            name={DOB_FIELD_NAME}
+            control={control}
+            render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={`dob-${id}`}>Date of Birth</FieldLabel>
+
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <InputGroup>
+                                <InputGroupInput
+                                    id={`dob-${id}`}
+                                    placeholder="YYYY-MM-DD"
+                                    readOnly
+                                    value={formatDate(field.value)}
+                                    aria-invalid={fieldState.invalid}
+                                />
+                                <InputGroupAddon>
+                                    <CalendarIcon />
+                                </InputGroupAddon>
+                            </InputGroup>
+                        </PopoverTrigger>
+
+                        <PopoverContent>
+                            <Calendar
+                                autoFocus
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={date => date > new Date() || date < new Date("1900-01-01")}
+                            />
+                        </PopoverContent>
+                    </Popover>
+
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
             )}
@@ -244,5 +299,6 @@ export {
     LastNameField,
     PhoneNumberField,
     EmailField,
+    DateOfBirthField,
     PasswordField,
 }

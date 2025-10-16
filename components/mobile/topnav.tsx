@@ -1,4 +1,4 @@
-// This BottomTab is only visible on mobile devices.
+// This TopNav is only visible on mobile devices.
 
 "use client"
 
@@ -7,14 +7,13 @@
 import Link from "next/link"
 
 // 3'rd party
+import clsx from "clsx"
 import {
-    TrendingUp as MarketIcon,
-    BarChart3 as ChartIcon,
-    Briefcase as PositionsIcon,
-    History as HistoryIcon,
+    SquareMenu as MenuIcon,
+    BarChart3 as DepositIcon,
+    Briefcase as TradeIcon,
     LucideIcon
 } from "lucide-react"
-import clsx from "clsx"
 
 // local
 import { NavType } from "@/lib/types"
@@ -28,18 +27,17 @@ type TabType = {
 }
 
 const tabs: Array<TabType> = [
-    { label: "Market", icon: MarketIcon, link: "/dashboard/market" },
-    { label: "Chart", icon: ChartIcon, link: "/dashboard/chart" },
-    { label: "Positions", icon: PositionsIcon, link: "/dashboard/positions" },
-    { label: "History", icon: HistoryIcon, link: "/dashboard/history" },
+    { label: "Menu", icon: MenuIcon, link: "/dashboard/menu" },
+    { label: "Deposit", icon: DepositIcon, link: "/dashboard/deposit" },
+    { label: "Trade", icon: TradeIcon, link: "/dashboard/trade" },
 ]
 
-function BottomTab() {
+function TopNav() {
     const activeNav = useActiveNav()
     const setActiveNav = useSetActiveNav()
 
     return (
-        <nav className="md:hidden fixed inset-x-0 bottom-0 bg-primary rounded-t-2xl shadow z-50">
+        <nav className="md:hidden fixed inset-x-0 bottom-0 bg-primary rounded-t-2xl shadow z-100">
             <div className="flex flex-row justify-around items-center h-16">
                 {tabs.map((tab, idx) => {
                     const Icon = tab.icon
@@ -62,4 +60,4 @@ function BottomTab() {
     )
 }
 
-export { BottomTab }
+export { TopNav }

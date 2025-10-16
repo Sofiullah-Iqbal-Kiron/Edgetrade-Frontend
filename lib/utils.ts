@@ -1,3 +1,4 @@
+import { format } from "date-fns"
 import { AxiosRequestConfig } from "axios"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -8,6 +9,12 @@ import { cookies } from "@/lib/cookies"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function formatDate(date: Date | undefined) {
+  if (!date) return ""
+
+  return format(date, "PPP")
 }
 
 export function setAccessToken(access_token: string): boolean {

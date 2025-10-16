@@ -1,4 +1,4 @@
-type NavType = "Market" | "Chart" | "Positions" | "History"
+type NavType = "Menu" | "Deposit" | "Trade" | "Market" | "Chart" | "Positions" | "History"
 
 export type {
     NavType,

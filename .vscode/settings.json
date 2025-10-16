@@ -2,8 +2,10 @@
     "cSpell.words": [
         "axios",
         "Edgetrade",
+        "partialize",
         "shadcn",
-        "Topbar"
+        "Topbar",
+        "topnav"
     ],
     "kiroAgent.configureMCP": "Disabled"
 }

@@ -9,7 +9,7 @@ import Link from "next/link"
 
 // 3'rd party
 // import useSWR from "swr"
-import { toast } from "sonner"
+// import { toast } from "sonner"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -28,6 +28,7 @@ import {
   FirstNameField,
   LastNameField,
   EmailField,
+  DateOfBirthField,
   PasswordField,
   PhoneNumberField,
 } from "@/components/form-fields"
@@ -48,7 +49,7 @@ export default function SignUp() {
   })
 
   const onSubmit: SubmitHandler<SignUpSchemaType> = (data: SignUpSchemaType) => {
-    toast.success(JSON.stringify(data))
+    alert(JSON.stringify(data))
     // toast.promise(
     //   new Promise((resolve) => setTimeout(resolve, 1200)),
     //   {
@@ -78,6 +79,7 @@ export default function SignUp() {
           <FirstNameField control={control} />
           <LastNameField control={control} />
           <PhoneNumberField control={control} />
+          <DateOfBirthField control={control} />
           <EmailField control={control} />
           <PasswordField control={control} />
         </FieldGroup>

@@ -2,3 +2,6 @@
 [+] Change security to HttpOnly cookies.
 [+] Setup axios interceptors.
 [+] Know about token lifetime.
+[+] Put out username and country field.
+[+] Redesign/Increase inter-date space or padding.
+[+] Fix the actual date_of_birth field. Entirely.
