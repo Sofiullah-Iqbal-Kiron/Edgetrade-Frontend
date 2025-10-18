@@ -3,6 +3,9 @@
 // shadcn/ui
 import { Button } from "@/components/ui/button"
 
+// 3'rd party
+import clsx from "clsx"
+
 // local
 import { MarketTabType } from "@/lib/types"
 import { useActiveMarketTab, useSetActiveMarketTab } from "@/lib/store"
@@ -26,7 +29,7 @@ export default function MarketTabs() {
     const setActiveMarketTab = useSetActiveMarketTab()
 
     return (
-        <div className="bg-primary/30 p-2 grid grid-cols-3 gap-x-4 gap-y-2 rounded-2xl">
+        <div className="bg-light-blue-hover p-2 grid grid-cols-3 gap-x-4 gap-y-2 rounded-2xl">
             {tabs.map((tab, idx) => {
                 const isActiveTab = activeMarketTab === tab.label
 
@@ -36,7 +39,7 @@ export default function MarketTabs() {
                         size="sm"
                         variant={isActiveTab ? "default" : "secondary"}
                         onClick={() => setActiveMarketTab(tab.label)}
-                        className="rounded-full font-bold"
+                        className={clsx("rounded-full font-bold bg-white", isActiveTab && "text-white bg-primary")}
                     >
                         {tab.label}
                     </Button>
