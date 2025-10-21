@@ -1,60 +1,140 @@
-"use client"
+'use client'
 
 // shadcn/ui
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-
-// 3'rd party
-import { User as UserIcon } from "lucide-react"
-
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { User as UserIcon } from 'lucide-react'
+import { useState } from 'react'
+import { Label } from '@radix-ui/react-label'
 
 export default function PersonalInformationPage() {
+  // Fake user data
+  const [userData, setUserData] = useState({
+    'first-name': 'Emma',
+    'last-name': 'Brown',
+    email: 'edgetrade@gmail.com',
+    id: '0218704976265',
+    dob: '12/08/1995',
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target
+    setUserData(prev => ({ ...prev, [id]: value }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Updated user data:', userData)
+  }
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-center">
-        <div>
-          <h2 className="text-lg font-semibold px-4 pb-1">Personal Information</h2>
-          <div className="w-full h-0.5 bg-primary rounded" />
+    <div className=''>
+      {/* Header Section */}
+      <div className=' px-4 flex flex-col items-center'>
+        <h1 className='text-[12px] font-bold text-center text-[#272525]'>
+          Personal Information
+        </h1>
+        <div className='h-[2px] w-[70%] mx-auto bg-blue-600 mt-1'></div>
+        <div className='mt-5 w-10 h-10 bg-[#2368D429] rounded-full flex items-center justify-center'>
+          <UserIcon className='text-blue-600' size={20} />
         </div>
       </div>
 
-      <div className="flex justify-center">
-        <div className="p-4 rounded-full bg-primary/20 flex justify-center items-center">
-          <UserIcon className="text-primary" size={30} strokeWidth={2.5} />
-        </div>
+      <div className='mt-5'>
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div className='flex gap-x-2'>
+            <div>
+              <Label
+                htmlFor='first-name'
+                className='py-2 text-[10px] text-[#767676] font-bold'
+              >
+                First Name
+              </Label>
+              <Input
+                id='first-name'
+                type='text'
+                value={userData['first-name']}
+                onChange={handleChange}
+                required
+                className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+              />
+            </div>
+            <div>
+              <Label
+                htmlFor='last-name'
+                className='py-2 text-[10px] text-[#767676] font-bold'
+              >
+                Last Name
+              </Label>
+              <Input
+                id='last-name'
+                type='text'
+                value={userData['last-name']}
+                onChange={handleChange}
+                required
+                className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label
+              htmlFor='email'
+              className='py-2 text-[10px] text-[#767676] font-bold'
+            >
+              Email
+            </Label>
+            <Input
+              id='email'
+              type='email'
+              value={userData.email}
+              onChange={handleChange}
+              required
+              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+            />
+          </div>
+          <div>
+            <Label
+              htmlFor='id'
+              className='py-2 text-[10px] text-[#767676] font-bold'
+            >
+              Email
+            </Label>
+            <Input
+              id='id'
+              type='number'
+              value={userData.id}
+              onChange={handleChange}
+              required
+              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+            />
+          </div>
+
+          <div>
+            <Label
+              htmlFor='dob'
+              className='py-2 text-[10px] text-[#767676] font-bold'
+            >
+              Date of Birth
+            </Label>
+            <Input
+              id='dob'
+              type='text'
+              value={userData.dob}
+              onChange={handleChange}
+              required
+              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+            />
+          </div>
+
+          <Button
+            type='submit'
+            className='w-full text-sm  bg-[#1D6CE9] py-6 text-white text-[18px] font-bold rounded-[6px]'
+          >
+            Upload Documents
+          </Button>
+        </form>
       </div>
-
-      <form className="space-y-4">
-        <div className="flex space-x-4">
-          <div className="flex-1">
-            <label className="text-sm font-medium">First Name</label>
-            <Input placeholder="Emma" className="bg-white py-6" />
-          </div>
-          <div className="flex-1">
-            <label className="text-sm font-medium">Last Name</label>
-            <Input placeholder="Brown" className="bg-white py-6" />
-          </div>
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Email Address</label>
-          <Input type="email" placeholder="edgetrade@gmail.com" className="bg-white py-6" />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">ID Number</label>
-          <Input placeholder="0218704976265" className="bg-white py-6" />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Date of Birth</label>
-          <Input placeholder="dd/mm/yyyy" className="bg-white py-6" />
-        </div>
-
-        <Button variant="default" type="submit" className="w-full h-14 mt-4">
-          Upload Documents
-        </Button>
-      </form>
     </div>
   )
 }

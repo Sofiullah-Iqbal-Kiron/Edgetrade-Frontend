@@ -54,7 +54,7 @@ export default function SignInPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-white w-full h-[50px] placeholder-[#949494] text-[#949494] focus:outline-none px-4 placeholder:text-[12px]"
+              className="bg-white w-full h-[50px] placeholder-[#949494]  focus:outline-none px-4 placeholder:text-[12px]"
             />
           </div>
 
@@ -69,16 +69,16 @@ export default function SignInPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="bg-white w-full h-[50px] placeholder-[#949494] text-[#949494] focus:outline-none px-4 placeholder:text-[12px]"
+              className="bg-white w-full h-[50px] placeholder-[#949494] focus:outline-none px-4 placeholder:text-[12px]"
             />
           </div>
 
-          <p className=" text-[10px] text-center">invalid creditionals ,either your email or password is wrong.</p>
+          {/* <p className="text-white text-[10px] text-center">invalid creditionals ,either your email or password is wrong.</p> */}
 
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center space-x-2">
               <Checkbox id="remember" />
-              <Label htmlFor="remember" className="font-bold text-[12px]">
+              <Label htmlFor="remember" className="font-bold text-[12px] text-white">
                 Stay Logged In
               </Label>
             </div>
