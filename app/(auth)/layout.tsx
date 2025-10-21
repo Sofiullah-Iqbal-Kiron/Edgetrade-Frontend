@@ -4,7 +4,7 @@ interface Props {
 
 export default function AuthLayout({ children }: Props) {
   return (
-    <div className="min-h-dvh flex flex-col justify-center items-center px-4">
+    <div className="bg-[rgba(248,249,250,1)]">
       {children}
     </div>
   )

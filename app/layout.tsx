@@ -1,14 +1,13 @@
 // nextjs
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 
 // shadcn/ui
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 // local
-import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-
+import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,10 +24,15 @@ export const metadata: Metadata = {
   description: "Global B2B Marketplace for Trading Companies",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+        style={{ fontFamily: 'Arial, sans-serif' }} // <-- added Arial fallback
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -40,5 +44,5 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

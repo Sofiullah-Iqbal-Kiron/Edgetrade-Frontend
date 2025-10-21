@@ -1,91 +1,98 @@
-"use client"
+"use client";
 
+import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
-// react
-import { useId } from "react"
+export default function SignInPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-// nextjs
-import Link from "next/link"
-
-// 3'rd party
-import { toast } from "sonner"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
-
-// shadcn/ui
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-
-// local
-import { SignInSchema, type SignInSchemaType } from "@/lib/schemas"
-import {
-  FormContainer,
-  EmailField,
-  PasswordField,
-} from "@/components/form-fields"
-
-
-export default function SignIn() {
-  const id = useId()
-
-  const { control, handleSubmit } = useForm<SignInSchemaType>({
-    resolver: zodResolver(SignInSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      staySignedIn: false,
-    }
-  })
-
-  const onSubmit = (data: SignInSchemaType) => {
-    toast.success("Signed in successfully!")
-    console.log(data)
-  }
-
-  function HeadComponent() {
-    return (
-      <CardHeader className="text-center">
-        <CardTitle>Edge Trade Login</CardTitle>
-        <CardDescription className="flex justify-center items-center space-x-1.5">
-          <span>Haven't registered yet?</span>
-          <Link href="/signup" className="underline underline-offset-2 text-primary">Signup</Link>
-        </CardDescription>
-      </CardHeader>
-    )
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log({ email, password });
+  };
 
   return (
-    <FormContainer formId={`signin-form-${id}`} headComponent={<HeadComponent />} submitButtonLabel="Sign In">
-      <form id={`signin-form-${id}`} onSubmit={handleSubmit(onSubmit)}>
-        <FieldGroup>
-          <EmailField control={control} />
+    <div
+      className="relative flex min-h-screen items-center justify-center bg-gradient-to-b from-white to-[#dbeafe]"
+      style={{
+        backgroundImage: "url('/rainbow.png')",
+        // backgroundSize: "cover",
+        backgroundPosition: "bottom",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Background Rings */}
 
-          <div className="flex flex-col items-end space-y-1">
-            <PasswordField control={control} />
-            <Link href="/reset-password" className="underline underline-offset-2 text-sm text-primary">Reset Password</Link>
+      {/* Login Card */}
+      <div className="relative z-10 w-full max-w-sm bg-[#EAEAEA00] p-6 shadow-lg">
+        <div className="text-center mb-6">
+          <div className="flex justify-center mb-2">
+            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+              A
+            </div>
+          </div>
+          <h1 className="text-xl font-semibold text-[#5D5D5D]">
+            EdgeTrade Log In
+          </h1>
+          <h2>Do you have an account? <Link href="/register"><span className="text-blue-600">Register</span></Link></h2>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="email" className="py-2">
+              Email
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="bg-white w-full h-[45px] placeholder-[#949494] placeholder:px-4 text-[#949494]"
+            />
           </div>
 
-          <Controller
-            name="staySignedIn"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field orientation="horizontal" data-invalid={fieldState.invalid}>
-                <Checkbox id="signin-stay" aria-invalid={fieldState.invalid} checked={field.value} onCheckedChange={(checked) => field.onChange(!!checked)} />
-                <FieldLabel htmlFor="signin-stay">Stay signed in</FieldLabel>
-              </Field>
-            )}
-          />
-        </FieldGroup>
-      </form>
-    </FormContainer>
-  )
+          <div>
+            <Label htmlFor="password" className="py-2 ">
+              Password
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="bg-white w-full h-[45px] placeholder-[#949494] placeholder:px-4 text-[#949494] px-2"
+            />
+          </div>
+
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center space-x-2">
+              <Checkbox id="remember" />
+              <Label htmlFor="remember" className="text-gray-600">
+                Stay Login
+              </Label>
+            </div>
+            <a href="#" className="text-white hover:underline">
+              Forgot password?
+            </a>
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full bg-[#1D6CE9] rounded-none py-6 text-white"
+          >
+            Sign in
+          </Button>
+        </form>
+      </div>
+    </div>
+  );
 }
