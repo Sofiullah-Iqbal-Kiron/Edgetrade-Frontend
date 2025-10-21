@@ -18,7 +18,7 @@ interface ToggleMDProps {
   total: string
 }
 
-export default function ToggleMD({
+export default function DepositToggle({
   tab,
   bankView,
   setBankView,

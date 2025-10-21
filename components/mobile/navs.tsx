@@ -25,6 +25,7 @@ type NavItemType = {
   label: NavType
   icon: LucideIcon | StaticImageData
   link: string
+
 }
 
 const topNavSet: Array<NavItemType> = [
@@ -66,14 +67,14 @@ function TopNavItem (item: NavItemType) {
         ) : (
           <Image
             src={Icon}
-            alt={item.label}
+            alt={item.label ?? ''}
             width={20}
             height={20}
             className={clsx(
               'w-5 h-5 transition-all duration-200',
               isActive 
-                ? 'filter-none brightness-100'  // Normal blue icon for active state
-                : 'brightness-0 invert'         // White icon for inactive state
+                ? 'filter-none brightness-100'  
+                : 'brightness-0 invert' 
             )}
           />
         )}
@@ -115,7 +116,7 @@ function BottomNavItem (item: NavItemType) {
         ) : (
           <Image
             src={Icon}
-            alt={item.label}
+            alt={item.label ?? ''}
             width={20}
             height={20}
             className={clsx(

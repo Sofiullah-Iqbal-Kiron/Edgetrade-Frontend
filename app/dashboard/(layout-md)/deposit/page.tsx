@@ -1,6 +1,6 @@
 'use client'
 
-import ToggleMD from '@/components/mobile/md/toggle'
+import DepositToggle from '@/components/mobile/md/depositToggle'
 import { useState } from 'react'
 
 export default function DepositPage() {
@@ -35,7 +35,7 @@ export default function DepositPage() {
         </button>
       </div>
 
-      <ToggleMD
+      <DepositToggle
         tab={tab}
         bankView={bankView}
         setBankView={setBankView}

@@ -1,4 +1,4 @@
-type NavType = "Menu" | "Deposit" | "Trade" | "Market" | "Chart" | "Positions" | "History"
+type NavType = "Menu" | "Deposit" | "Trade" | "Market" | "Chart" | "Positions" | "History" | null
 
 type MarketTabType = "All" | "Watchlist" | "Index" | "Exchange" | "Commodity" | "Stock"
 
