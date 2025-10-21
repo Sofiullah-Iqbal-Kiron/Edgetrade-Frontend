@@ -56,7 +56,7 @@ export default function PersonalInformationPage() {
                 value={userData['first-name']}
                 onChange={handleChange}
                 required
-                className='bg-white w-full h-[40px] placeholder-[#949494] text-[#949494] focus:outline-none px-4 text-[12px] rounded-[6px]'
+                className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
               />
             </div>
             <div>
@@ -72,7 +72,7 @@ export default function PersonalInformationPage() {
                 value={userData['last-name']}
                 onChange={handleChange}
                 required
-                className='bg-white w-full h-[40px] placeholder-[#949494] text-[#949494] focus:outline-none px-4 text-[12px] rounded-[6px]'
+                className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
               />
             </div>
           </div>
@@ -90,7 +90,7 @@ export default function PersonalInformationPage() {
               value={userData.email}
               onChange={handleChange}
               required
-              className='bg-white w-full h-[40px] placeholder-[#949494] text-[#949494] focus:outline-none px-4 text-[12px] rounded-[6px]'
+              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
             />
           </div>
           <div>
@@ -106,7 +106,7 @@ export default function PersonalInformationPage() {
               value={userData.id}
               onChange={handleChange}
               required
-              className='bg-white w-full h-[40px] placeholder-[#949494] text-[#949494] focus:outline-none px-4 text-[12px] rounded-[6px]'
+              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
             />
           </div>
 
@@ -123,7 +123,7 @@ export default function PersonalInformationPage() {
               value={userData.dob}
               onChange={handleChange}
               required
-              className='bg-white w-full h-[40px] placeholder-[#949494] text-[#949494] focus:outline-none px-4 text-[12px] rounded-[6px]'
+              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
             />
           </div>
 

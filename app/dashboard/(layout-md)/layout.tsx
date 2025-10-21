@@ -18,8 +18,6 @@ export default function DashboardSmallLayout ({
         </div>
       </div>
 
-     
-
       {/* Page Content */}
       <div className='px-2'>
         <SubContainerMd>{children}</SubContainerMd>

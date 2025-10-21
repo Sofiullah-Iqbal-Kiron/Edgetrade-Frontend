@@ -33,7 +33,7 @@ const menus: Array<MenuType> = [
   },
   {
     label: "Help Desk",
-    link: "/dashboard/help-desk"
+    link: "/dashboard/contact"
   },
 ]
 
@@ -77,13 +77,13 @@ export default function MenuPage() {
         {termsLinks.map((termLink, idx) => <TermsLink key={`menu-page-term-link-${idx}`} {...termLink} />)}
       </div>
 
-      <p className="uppercase font-semibold text-muted-foreground text-center">
+      <p className="uppercase font-semibold text-muted-foreground text-center text-[12px]">
         Trade responsibility: trading cfds is risky and may lead to permanent capital loss. Make sure you understand the risks before trading.
       </p>
 
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 text-[12px] text-[#5D5D5D] font-bold">
         <span>2025</span>
-        <span>EDGETRADE</span>
+        <span>EDGETRADE <sup>TM</sup></span>
       </div>
     </>
   )
