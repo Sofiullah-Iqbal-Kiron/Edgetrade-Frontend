@@ -80,7 +80,7 @@ function TopNavItem (item: NavItemType) {
       </div>
       <span
         className={clsx(
-          'text-xs mt-1 font-medium transition-all duration-200',
+          'text-xs font-medium transition-all duration-200',
           isActive ? 'text-white' : 'text-white'
         )}
       >
@@ -149,7 +149,7 @@ function ItemsContainer ({ children }: { children: React.ReactNode }) {
 
 function TopNav () {
   return (
-    <nav className='md:hidden bg-dark-blue-hover rounded-2xl py-2'>
+    <nav className='md:hidden bg-dark-blue-hover rounded-2xl py-1'>
       <ItemsContainer>
         {topNavSet.map((item, idx) => (
           <TopNavItem key={idx} {...item} />
