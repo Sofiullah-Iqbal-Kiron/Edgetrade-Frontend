@@ -9,9 +9,9 @@ export default function DashboardSmallLayout ({
   children: React.ReactNode
 }) {
   return (
-    <div className='bg-white '>
+    <div className='bg-white'>
       {/* Top Blue Header */}
-      <div className='bg-primary text-white rounded-b-[12px] shadow-md w-full h-[225px] relative'>
+      <div className='bg-primary text-white rounded-b-[12px] shadow-md w-full h-[270px] relative'>
         <EquityCard />
         <div className='px-2'>
           <TopNav />
@@ -19,7 +19,7 @@ export default function DashboardSmallLayout ({
       </div>
 
       {/* Page Content */}
-      <div className='px-2'>
+      <div className='mt-2'>
         <SubContainerMd>{children}</SubContainerMd>
       </div>
     </div>
