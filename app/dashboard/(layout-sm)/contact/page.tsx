@@ -2,7 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import mailLogo from '@/public/logo/mail-logo.png'
+// import mailLogo from '@/public/logo/mail-logo.png'
+import mailLogo from '@/public/logo/mark_email_unread.svg'
 import { Label } from '@radix-ui/react-label'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -54,13 +55,13 @@ export default function ContactPage () {
         </div>
       </div>
 
-      <div className='mt-5'>
-        <form onSubmit={handleSubmit} className='space-y-2'>
+      <div className='mt-3'>
+        <form onSubmit={handleSubmit} className='space-y-1'>
           <div className='flex gap-x-2'>
             <div>
               <Label
                 htmlFor='first-name'
-                className='py-2 text-[10px] text-[#767676] font-bold'
+                className='py-2 text-[10px] text-[#5D5D5D] font-bold'
               >
                 First Name
               </Label>
@@ -69,14 +70,14 @@ export default function ContactPage () {
                 type='text'
                 value={contactMessage['first-name']}
                 onChange={handleChange}
-                required
-                className='bg-white w-full h-[40px] placeholder-[#949494] focus:outline-none px-4 text-[12px] rounded-[6px]'
+                disabled
+                className='bg-white w-full h-[40px] text-[#A9A9A9] focus:outline-none px-[10px] text-[12px] rounded-[6px]'
               />
             </div>
             <div>
               <Label
                 htmlFor='last-name'
-                className='py-2 text-[10px] text-[#767676] font-bold'
+                className='py-2 text-[10px] text-[#5D5D5D] font-bold'
               >
                 Last Name
               </Label>
@@ -85,8 +86,8 @@ export default function ContactPage () {
                 type='text'
                 value={contactMessage['last-name']}
                 onChange={handleChange}
-                required
-                className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+                disabled
+                className='bg-white w-full h-[40px] text-[#A9A9A9] focus:outline-none px-[10px] text-[12px] rounded-[6px]'
               />
             </div>
           </div>
@@ -94,23 +95,23 @@ export default function ContactPage () {
           <div>
             <Label
               htmlFor='email'
-              className='py-2 text-[10px] text-[#767676] font-bold'
+              className='py-2 text-[10px] text-[#5D5D5D] font-bold'
             >
-              Email
+              E-mail Address
             </Label>
             <Input
               id='email'
               type='email'
               value={contactMessage.email}
               onChange={handleChange}
-              required
-              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+              disabled
+              className='bg-white w-full h-[40px] text-[#A9A9A9] focus:outline-none px-[10px] text-[12px] rounded-[6px]'
             />
           </div>
           <div>
             <Label
               htmlFor='message'
-              className='py-2 text-[10px] text-[#767676] font-bold'
+              className='py-2 text-[10px] text-[#5D5D5D] font-bold'
             >
               Message
             </Label>
@@ -119,13 +120,13 @@ export default function ContactPage () {
               value={contactMessage.message}
               onChange={handleTextAreaChange}
               required
-              className='bg-white w-full h-[100px] placeholder-[#949494] focus:outline-none px-4 py-2 text-[12px] rounded-[6px] resize-none'
+              className='bg-white w-full h-[100px] placeholder-[#949494] focus:outline-none px-[10px] py-2 text-[12px] rounded-[6px] resize-none'
             />
           </div>
 
           <Button
             type='submit'
-            className='w-full text-sm  bg-[#1D6CE9] py-6 text-white text-[18px] font-bold rounded-[6px] mt-5'
+            className='w-full text-[14px]  bg-[#1D6CE9] py-6 text-white font-bold rounded-[6px] mt-5'
           >
             Upload Documents
           </Button>

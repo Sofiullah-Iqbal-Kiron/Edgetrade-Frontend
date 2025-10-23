@@ -6,15 +6,16 @@ import { Button } from '@/components/ui/button'
 import { User as UserIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Label } from '@radix-ui/react-label'
-
-export default function PersonalInformationPage() {
+import userIcon from '@/public/logo/user-icon.svg'
+import Image from 'next/image'
+export default function PersonalInformationPage () {
   // Fake user data
   const [userData, setUserData] = useState({
     'first-name': 'Emma',
     'last-name': 'Brown',
     email: 'edgetrade@gmail.com',
     id: '0218704976265',
-    dob: '12/08/1995',
+    dob: '12/08/1995'
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,23 +31,24 @@ export default function PersonalInformationPage() {
   return (
     <div className=''>
       {/* Header Section */}
-      <div className=' px-4 flex flex-col items-center'>
+      <div className='px-4 flex flex-col items-center'>
         <h1 className='text-[12px] font-bold text-center text-[#272525]'>
           Personal Information
         </h1>
         <div className='h-[2px] w-[70%] mx-auto bg-blue-600 mt-1'></div>
-        <div className='mt-5 w-10 h-10 bg-[#2368D429] rounded-full flex items-center justify-center'>
-          <UserIcon className='text-blue-600' size={20} />
+        <div className='mt-5 w-[60px] h-[60px] bg-[#2368D429] rounded-full flex items-center justify-center p-[10px]'>
+          <Image src={userIcon} alt='User Icon' width={25} height={25} />
+          {/* <UserIcon className='text-blue-600' size={20} /> */}
         </div>
       </div>
 
       <div className='mt-5'>
-        <form onSubmit={handleSubmit} className='space-y-4'>
+        <form onSubmit={handleSubmit} className='space-y-1'>
           <div className='flex gap-x-2'>
             <div>
               <Label
                 htmlFor='first-name'
-                className='py-2 text-[10px] text-[#767676] font-bold'
+                className='py-2 text-[10px] text-[#5D5D5D] font-bold'
               >
                 First Name
               </Label>
@@ -55,14 +57,14 @@ export default function PersonalInformationPage() {
                 type='text'
                 value={userData['first-name']}
                 onChange={handleChange}
-                required
-                className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+                disabled
+                className='bg-white w-full h-[40px] text-[#949494]  focus:outline-none px-[10px] text-[12px] rounded-[6px]'
               />
             </div>
             <div>
               <Label
                 htmlFor='last-name'
-                className='py-2 text-[10px] text-[#767676] font-bold'
+                className='py-2 text-[10px] text-[#5D5D5D] font-bold'
               >
                 Last Name
               </Label>
@@ -71,8 +73,8 @@ export default function PersonalInformationPage() {
                 type='text'
                 value={userData['last-name']}
                 onChange={handleChange}
-                required
-                className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+                disabled
+                className='bg-white w-full h-[40px] text-[#949494]  focus:outline-none px-[10px] text-[12px] rounded-[6px]'
               />
             </div>
           </div>
@@ -80,7 +82,7 @@ export default function PersonalInformationPage() {
           <div>
             <Label
               htmlFor='email'
-              className='py-2 text-[10px] text-[#767676] font-bold'
+              className='py-2 text-[10px] text-[#5D5D5D] font-bold'
             >
               Email
             </Label>
@@ -89,31 +91,31 @@ export default function PersonalInformationPage() {
               type='email'
               value={userData.email}
               onChange={handleChange}
-              required
-              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+              disabled
+              className='bg-white w-full h-[40px] text-[#949494]  focus:outline-none px-[10px] text-[12px] rounded-[6px]'
             />
           </div>
           <div>
             <Label
               htmlFor='id'
-              className='py-2 text-[10px] text-[#767676] font-bold'
+              className='py-2 text-[10px] text-[#5D5D5D] font-bold'
             >
-              Email
+              ID Number
             </Label>
             <Input
               id='id'
               type='number'
               value={userData.id}
               onChange={handleChange}
-              required
-              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+              disabled
+              className='bg-white w-full h-[40px] text-[#949494]  focus:outline-none px-[10px] text-[12px] rounded-[6px]'
             />
           </div>
 
           <div>
             <Label
               htmlFor='dob'
-              className='py-2 text-[10px] text-[#767676] font-bold'
+              className='py-2 text-[10px] text-[#5D5D5D] font-bold'
             >
               Date of Birth
             </Label>
@@ -122,14 +124,14 @@ export default function PersonalInformationPage() {
               type='text'
               value={userData.dob}
               onChange={handleChange}
-              required
-              className='bg-white w-full h-[40px] placeholder-[#949494]  focus:outline-none px-4 text-[12px] rounded-[6px]'
+              disabled
+              className='bg-white w-full h-[40px] text-[#949494]  focus:outline-none px-[10px] text-[12px] rounded-[6px]'
             />
           </div>
 
           <Button
             type='submit'
-            className='w-full text-sm  bg-[#1D6CE9] py-6 text-white text-[18px] font-bold rounded-[6px]'
+            className='w-full text-sm bg-[#1D6CE9] py-6 text-white font-bold rounded-[6px] mt-[60px]'
           >
             Upload Documents
           </Button>

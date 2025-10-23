@@ -14,9 +14,9 @@ export default function DepositPage() {
   const total = (Number(amount || 0) + transactionFee + commission).toFixed(2)
 
   return (
-    <div className='mt-10 bg-[#DDE9FC] w-full py-8 px-4 rounded-[10px] '>
+    <div className='bg-[#DDE9FC] w-full py-8 px-4 rounded-[10px] '>
       {/* Toggle buttons */}
-      <div className='flex gap-x-3 mb-3 bg-[#DDE9FC] py-4 px-2 rounded-[10px] absolute top-[180px] left-2 right-2'>
+      <div className='flex gap-x-3 mb-3 bg-[#DDE9FC] p-2 rounded-[10px] absolute top-[227px] left-2 right-2'>
         <button
           onClick={() => setTab('Bank')}
           className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
