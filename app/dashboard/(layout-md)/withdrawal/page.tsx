@@ -83,26 +83,21 @@ export default function WithdrawalPage() {
   const total = (Number(amount || 0) + transactionFee + commission).toFixed(2)
 
   return (
-    <div className="w-full px-4">
+    <div className="w-full px-4 bg-[#DDE9FC] rounded-[10px] py-8 mt-[30px]">
       {/* Toggle buttons with smooth animation */}
-      <div className="flex gap-x-3 mb-3 bg-[#DDE9FC] p-2 rounded-[10px] absolute top-[227px] left-2 right-2">
+      <div className='flex gap-x-3 mb-3 bg-[#DDE9FC] p-2 rounded-[10px] absolute top-[227px] left-2 right-2'>
         <button
           onClick={() => setTab('Bank')}
-          className={`flex-1 py-4 rounded-lg text-sm font-semibold transition-all duration-300 ease-in-out transform ${
-            tab === 'Bank'
-              ? 'bg-blue-600 text-white shadow-md scale-[1.03]'
-              : 'bg-gray-100 text-gray-700 '
+          className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
+            tab === 'Bank' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
           }`}
         >
           Bank
         </button>
-
         <button
           onClick={() => setTab('Crypto')}
-          className={`flex-1 py-4 rounded-lg text-sm font-semibold transition-all duration-300 ease-in-out transform ${
-            tab === 'Crypto'
-              ? 'bg-blue-600 text-white shadow-md scale-[1.03]'
-              : 'bg-gray-100 text-gray-700 '
+          className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
+            tab === 'Crypto' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
           }`}
         >
           Crypto

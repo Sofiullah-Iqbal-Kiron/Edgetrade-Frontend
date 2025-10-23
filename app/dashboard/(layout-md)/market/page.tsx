@@ -20,7 +20,7 @@ import SymbolTable from "@/components/symbol-table"
 
 export default function MarketPage() {
   return (
-    <div className="space-y-4 w-full">
+    <div className="space-y-4 w-full mt-[35px]">
       <MarketTabs />
       <div className="mt-3">
         <InputGroup className="rounded-full bg-zinc-700 text-white/80">
