@@ -23,7 +23,7 @@ const tabs: Array<TabType> = [
   { label: 'Stock' }
 ]
 
-export default function MarketTabs () {
+export default function MarketTabs() {
   const activeMarketTab = useActiveMarketTab()
   const setActiveMarketTab = useSetActiveMarketTab()
 

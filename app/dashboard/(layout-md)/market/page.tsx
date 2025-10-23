@@ -12,8 +12,8 @@ import {
 } from "lucide-react"
 
 // local
-import { TopNav } from "@/components/mobile/navs"
-import EquityCard from "@/components/equity-card"
+// import { TopNav } from "@/components/mobile/navs"
+// import EquityCard from "@/components/equity-card"
 import MarketTabs from "@/components/market-tabs"
 import SymbolTable from "@/components/symbol-table"
 
