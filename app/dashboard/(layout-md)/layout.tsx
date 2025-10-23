@@ -11,7 +11,7 @@ export default function DashboardSmallLayout ({
   return (
     <div className='bg-white'>
       {/* Top Blue Header */}
-      <div className='bg-primary text-white rounded-b-[12px] shadow-md w-full h-[275px] relative'>
+      <div className='bg-primary text-white rounded-b-[12px] shadow-md w-full h-[270px] relative'>
         <EquityCard />
         <div className='px-2'>
           <TopNav />
@@ -19,7 +19,7 @@ export default function DashboardSmallLayout ({
       </div>
 
       {/* Page Content */}
-      <div className='mt-2'>
+      <div className='mt-2 px-2'>
         <SubContainerMd>{children}</SubContainerMd>
       </div>
     </div>
