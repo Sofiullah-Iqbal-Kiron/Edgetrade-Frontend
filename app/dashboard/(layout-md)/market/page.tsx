@@ -1,4 +1,5 @@
 // shadcn/ui
+'use client'
 import {
   InputGroup,
   InputGroupInput,
@@ -21,7 +22,7 @@ export default function MarketPage() {
   return (
     <div className="space-y-4 w-full">
       <MarketTabs />
-      <div className="mt-10">
+      <div className="mt-3">
         <InputGroup className="rounded-full bg-zinc-700 text-white/80">
           <InputGroupAddon>
             <SearchIcon />

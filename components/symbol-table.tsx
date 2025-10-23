@@ -1,5 +1,7 @@
 // shadcn/ui
+'use client'
 import { Button } from '@/components/ui/button'
+import React from 'react'
 import {
   Table,
   TableBody,
@@ -21,6 +23,8 @@ import clsx from 'clsx'
 
 // local
 import { MarketSymbolType } from '@/lib/types'
+import { useState } from 'react'
+// import { useState } from 'react'
 
 const symbols: Array<MarketSymbolType> = [
   {
@@ -70,32 +74,93 @@ function ComposedTableHead ({
   )
 }
 
-function ComposedTableRow (symbol: MarketSymbolType) {
-  const price = symbol.status === 'open' ? symbol.price : ''
-  const change =
-    symbol.status === 'open' ? `%${symbol.changeRate}` : 'Market Closed'
+// function ComposedTableRow (symbol: MarketSymbolType) {
+//   const price = symbol.status === 'open' ? symbol.price : ''
+//   const change =
+//     symbol.status === 'open' ? `%${symbol.changeRate}` : 'Market Closed'
 
-  return (
-    <TableRow className='bg-secondary border-white dark:border-white/50 text-center cursor-pointer'>
-      <TableCell className='font-bold flex items-center ml-5 gap-2'>
-        <img src={symbol.icon} alt={symbol.symbol} className='w-4 h-4' />
-        <span>{symbol.symbol}</span>
-      </TableCell>
-      <TableCell className='text-gray-500'>{price}</TableCell>
-      <TableCell
+//   return (
+//     <TableRow className='bg-secondary border-white dark:border-white/50 text-center cursor-pointer'>
+//       <TableCell className='font-bold flex items-center ml-5 gap-2'>
+//         <img src={symbol.icon} alt={symbol.symbol} className='w-4 h-4' />
+//         <span>{symbol.symbol}</span>
+//       </TableCell>
+//       <TableCell className='text-gray-500'>{price}</TableCell>
+//       <TableCell
+//         className={clsx(
+//           symbol.isIncreasing && 'text-green-500',
+//           !symbol.isIncreasing && 'text-red-600',
+//           change === 'Market Closed' && 'text-blue-500 font-bold'
+//         )}
+//       >
+//         {change}
+//       </TableCell>
+//     </TableRow>
+//   )
+// }
+
+export const ComposedTableRow = React.forwardRef<
+  HTMLTableRowElement,
+  MarketSymbolType & React.HTMLAttributes<HTMLTableRowElement>
+>(
+  (
+    {
+      symbol,
+      icon,
+      price,
+      changeRate,
+      isIncreasing,
+      status,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const displayPrice = status === 'open' ? price : ''
+    const displayChange = status === 'open' ? `%${changeRate}` : 'Market Closed'
+
+    return (
+      <TableRow
+        ref={ref}
+        // ⬇ Important: Spread props so Radix can attach event handlers
+        {...props}
         className={clsx(
-          symbol.isIncreasing && 'text-green-500',
-          !symbol.isIncreasing && 'text-red-600',
-          change === 'Market Closed' && 'text-blue-500 font-bold'
+          'bg-secondary border-white dark:border-white/50 text-center cursor-pointer',
+          className
         )}
       >
-        {change}
-      </TableCell>
-    </TableRow>
-  )
-}
+        <TableCell className='font-bold flex items-center ml-5 gap-2'>
+          <img src={icon} alt={symbol} className='w-4 h-4' />
+          <span>{symbol}</span>
+        </TableCell>
+        <TableCell className='text-gray-500'>{displayPrice}</TableCell>
+        <TableCell
+          className={clsx(
+            isIncreasing && 'text-green-500',
+            !isIncreasing && 'text-red-600',
+            displayChange === 'Market Closed' && 'text-blue-500 font-bold'
+          )}
+        >
+          {displayChange}
+        </TableCell>
+      </TableRow>
+    )
+  }
+)
+
+ComposedTableRow.displayName = 'ComposedTableRow'
 
 export default function SymbolTable () {
+  const [watchlist, setWatchlist] = useState<string[]>([])
+
+  // Toggles symbol in/out of watchlist
+  const toggleWatchlist = (symbol: string) => {
+    setWatchlist(prev =>
+      prev.includes(symbol)
+        ? prev.filter(item => item !== symbol)
+        : [...prev, symbol]
+    )
+  }
   return (
     <Table>
       <TableHeader>
@@ -114,6 +179,8 @@ export default function SymbolTable () {
 
       <TableBody>
         {symbols.map((symbol, idx) => {
+          const isInWatchlist = watchlist.includes(symbol.symbol)
+
           return (
             <Sheet key={`symbol-table-row-${idx}`}>
               <SheetTrigger asChild>
@@ -121,37 +188,34 @@ export default function SymbolTable () {
               </SheetTrigger>
               <SheetContent
                 side='bottom'
-                className='rounded-t-2xl bg-dark-blue-hover border-none'
+                className='bg-gradient-to-t from-[#002366] to-[#0047ab] border-none rounded-t-[28px] shadow-lg z-40 py-4'
               >
                 <SheetHeader>
                   <SheetTitle className='text-center text-light-blue font-bold'>
                     {symbol.symbol}
                   </SheetTitle>
                 </SheetHeader>
-                <div className='grid gap-4 px-14 pb-30'>
+                <div className='grid gap-4 px-6 pb-30'>
                   <Button
                     variant='secondary'
-                    className='font-semibold text-lg rounded-xl bg-light-blue shadow-light-blue-active shadow'
+                    className='font-semibold text-sm rounded-[12px] bg-light-blue py-6'
                   >
                     Chart
                   </Button>
                   <Button
                     variant='secondary'
-                    className='font-semibold text-lg rounded-xl bg-light-blue'
+                    className='font-semibold text-sm rounded-[12px] bg-light-blue py-6'
                   >
                     Create Order
                   </Button>
                   <Button
+                    onClick={() => toggleWatchlist(symbol.symbol)}
                     variant='secondary'
-                    className='font-semibold text-lg rounded-xl bg-light-blue'
+                    className={clsx(
+                      'font-semibold text-sm rounded-[12px] bg-light-blue py-6'
+                    )}
                   >
-                    Add Watchlist
-                  </Button>
-                  <Button
-                    variant='secondary'
-                    className='font-semibold text-lg rounded-xl bg-light-blue'
-                  >
-                    Remove Watchlist
+                    {isInWatchlist ? 'Remove Watchlist' : 'Add Watchlist'}
                   </Button>
                 </div>
               </SheetContent>

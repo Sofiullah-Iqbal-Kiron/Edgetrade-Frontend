@@ -28,7 +28,7 @@ export default function MarketTabs() {
   const setActiveMarketTab = useSetActiveMarketTab()
 
   return (
-    <div className='bg-light-blue-hover p-2 grid grid-cols-3 gap-x-4 gap-y-2 rounded-2xl absolute top-[180px] left-2 right-2'>
+    <div className='bg-light-blue-hover p-2 grid grid-cols-3 gap-x-4 gap-y-2 rounded-2xl absolute top-[225px] left-2 right-2'>
       {tabs.map((tab, idx) => {
         const isActiveTab = activeMarketTab === tab.label
 
