@@ -264,7 +264,7 @@ function TopNav() {
 
 function BottomNav() {
     return (
-        <nav className="md:hidden fixed inset-x-0 bottom-0 bg-primary rounded-t-2xl shadow z-50">
+        <nav className="md:hidden fixed inset-x-0 bottom-0 bg-primary rounded-t-2xl shadow z-100">
             <ItemsContainer>
                 {bottomNavSet.map((nav, idx) => <NavItem key={`bottom-nav-item-${idx}`} {...nav} />)}
             </ItemsContainer>
