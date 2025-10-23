@@ -14,7 +14,7 @@ export default function DepositPage() {
   const total = (Number(amount || 0) + transactionFee + commission).toFixed(2)
 
   return (
-    <div className='bg-[#DDE9FC] w-full py-8 px-4 rounded-[10px] '>
+    <div className='w-full px-4'>
       {/* Toggle buttons */}
       <div className='flex gap-x-3 mb-3 bg-[#DDE9FC] p-2 rounded-[10px] absolute top-[227px] left-2 right-2'>
         <button
