@@ -6,16 +6,65 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import signinLogo from '../../../public/logo/signin-top-logo.png'
 import Image from 'next/image'
+import { loginUser } from '@/lib/api/calls'
+import { SignInSchema, type SignInSchemaType } from '@/lib/schemas'
+import { setAccessToken } from '@/lib/utils'
 
 export default function SignInPage () {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [stayLoggedIn, setStayLoggedIn] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log({ email, password })
+    setIsLoading(true)
+
+    try {
+      // Prepare data for API
+      const credentials: SignInSchemaType = {
+        email,
+        password,
+        staySignedIn: stayLoggedIn
+      }
+
+      // Validate data
+      const validatedData = SignInSchema.parse(credentials)
+
+      // Call API
+      const response = await loginUser(validatedData)
+
+      // Store tokens
+      if (response.access_token) {
+        setAccessToken(response.access_token)
+        toast.success('Login successful!')
+        
+        // Redirect to dashboard
+        router.push('/dashboard')
+      } else {
+        throw new Error('No access token received')
+      }
+
+    } catch (error: any) {
+      console.error('Login error:', error)
+
+      if (error.response?.data?.detail) {
+        toast.error(error.response.data.detail)
+      } else if (error.errors) {
+        // Zod validation errors
+        const firstError = Object.values(error.errors)[0]
+        toast.error(Array.isArray(firstError) ? firstError[0] : firstError)
+      } else {
+        toast.error('Login failed. Please check your credentials.')
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -90,7 +139,11 @@ export default function SignInPage () {
 
           <div className='flex items-center justify-between text-sm'>
             <div className='flex items-center space-x-2'>
-              <Checkbox id='remember' />
+              <Checkbox 
+                id='remember' 
+                checked={stayLoggedIn}
+                onCheckedChange={(checked) => setStayLoggedIn(!!checked)}
+              />
               <Label
                 htmlFor='remember'
                 className='font-bold text-[12px] text-white'
@@ -98,22 +151,21 @@ export default function SignInPage () {
                 Stay Logged In
               </Label>
             </div>
-            <a
-              href='#'
+            <Link
+              href='/forgot-password'
               className=' hover:underline font-bold text-[12px] text-[#ffffff98]'
             >
               Forgot password?
-            </a>
+            </Link>
           </div>
 
-          <Link href={'/dashboard/market'}>
-            <Button
-              type='submit'
-              className='w-full  bg-[#1D6CE9] rounded-none py-6 text-white text-[18px] font-bold'
-            >
-              Sign in
-            </Button>
-          </Link>
+          <Button
+            type='submit'
+            disabled={isLoading}
+            className='w-full  bg-[#1D6CE9] rounded-none py-6 text-white text-[18px] font-bold disabled:opacity-50'
+          >
+            {isLoading ? 'Signing In...' : 'Sign in'}
+          </Button>
         </form>
       </div>
     </div>

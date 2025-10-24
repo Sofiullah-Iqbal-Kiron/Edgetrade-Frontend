@@ -31,7 +31,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
-        style={{ fontFamily: 'Arial, sans-serif' }} // <-- added Arial fallback
+        style={{ fontFamily: 'Arial, sans-serif' }}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
