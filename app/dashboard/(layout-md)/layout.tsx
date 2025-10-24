@@ -3,7 +3,7 @@ import { TopNav } from '@/components/mobile/navs'
 import EquityCard from '@/components/equity-card'
 import { SubContainerMd } from '@/components/mobile/containers-md'
 
-export default function DashboardSmallLayout ({
+export default function DashboardMdLayout ({
   children
 }: {
   children: React.ReactNode

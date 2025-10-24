@@ -29,27 +29,51 @@ import { useState } from 'react'
 const symbols: Array<MarketSymbolType> = [
   {
     symbol: 'AUD/USD',
+    type: 'Buy',
+    enter_price: '0.65419',
+    close_price: '0.65419',
+    profit: '+$47.23',
     icon: '/images/usa-flag.png',
     price: 0.64732,
     changeRate: 15.08,
     isIncreasing: true,
-    status: 'open'
+    status: 'open',
+    date: '06/09/2025',
+    time: '16:32:56',
+    amount: '+$500.00',
+    method: 'Bank'
   },
   {
     symbol: 'ASELSAN',
+    type: 'Sell',
+    enter_price: '0.65419',
+    close_price: '0.65419',
+    profit: '+$47.23',
     icon: '/images/ASELS.IS.png',
     price: 0.65708,
     changeRate: 15.32,
     isIncreasing: false,
-    status: 'open'
+    status: 'open',
+    date: '06/09/2025',
+    time: '16:32:56',
+    amount: '+$500.00',
+    method: 'Bank'
   },
   {
     symbol: 'GARAN',
+    type: 'Buy',
+    enter_price: '0.65419',
+    close_price: '0.65419',
+    profit: '+$47.23',
     icon: '/images/GARAN.png',
     price: 62.45,
     changeRate: -0.45,
     isIncreasing: true,
-    status: 'closed'
+    status: 'closed',
+    date: '06/09/2025',
+    time: '16:32:56',
+    amount: '+$500.00',
+    method: 'Bank'
   }
 ]
 
