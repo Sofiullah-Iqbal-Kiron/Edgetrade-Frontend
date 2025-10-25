@@ -19,6 +19,8 @@ type MarketSymbolType = {
     changeRate: number,
     isIncreasing: boolean,
     status: MarketStatusType
+    close: string
+    volume: string
 }
 
 export type {
