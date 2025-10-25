@@ -7,14 +7,14 @@ import Image from 'next/image'
 import usdtLogo from '@/public/logo/USDT - Tether.png'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '@/components/ui/input'
+import { Plus, Minus, Circle, ChevronUp, ChevronDown } from 'lucide-react'
+import { useState } from 'react'
 
-interface HistoryToggleProps {
-  tab: 'Trade' | 'Transaction'
-  tradeView: 'form' | 'info'
-  setTradeView: (view: 'form' | 'info') => void
+interface PositionToggleProps {
+  tab: 'Position' | 'Order'
+  positionView: 'form' | 'info'
 }
 
-import { Button } from '@/components/ui/button'
 import React from 'react'
 import {
   Table,
@@ -37,7 +37,7 @@ import clsx from 'clsx'
 
 // local
 import { MarketSymbolType } from '@/lib/types'
-import { useState } from 'react'
+import { Button } from '@/components/ui/button'
 // import { useState } from 'react'
 
 const symbols: Array<MarketSymbolType> = [
@@ -97,9 +97,9 @@ const symbols: Array<MarketSymbolType> = [
   }
 ]
 
-const tansactions: Array<MarketSymbolType> = [
+const orders: Array<MarketSymbolType> = [
   {
-    symbol: 'GARAN',
+    symbol: 'AUDUSD',
     icon: '/images/GARAN.png',
     enter_price: '0.65419',
     close_price: '0.65419',
@@ -107,18 +107,18 @@ const tansactions: Array<MarketSymbolType> = [
     price: 62.45,
     changeRate: -0.45,
     isIncreasing: true,
-    type: 'Deposit',
+    type: 'Buy',
     status: 'Deposited',
     date: '06/09/2025',
     time: '16:32:56',
     amount: '+$500.00',
     method: 'Bank',
     close: 'Close',
-    volume: '1.0'
+    volume: '0.1'
   },
   {
-    symbol: 'GARAN',
-    type: 'Withdrawal',
+    symbol: 'AUDUSD',
+    type: 'Buy',
     enter_price: '0.65419',
     close_price: '0.65419',
     profit: '-$47.23',
@@ -135,8 +135,8 @@ const tansactions: Array<MarketSymbolType> = [
     volume: '1.0'
   },
   {
-    symbol: 'GARAN',
-    type: 'Withdrawal',
+    symbol: 'AUDUSD',
+    type: 'Sell',
     enter_price: '0.65419',
     close_price: '0.65419',
     profit: '-$47.23',
@@ -150,7 +150,7 @@ const tansactions: Array<MarketSymbolType> = [
     amount: '+$500.00',
     method: 'Bank',
     close: 'Close',
-    volume: '1.0'
+    volume: '2.0'
   }
 ]
 
@@ -175,7 +175,7 @@ function ComposedTableHead ({
   )
 }
 
-export const ComposedTableRow = React.forwardRef<
+export const ComposedTableRowPosition = React.forwardRef<
   HTMLTableRowElement,
   MarketSymbolType & React.HTMLAttributes<HTMLTableRowElement>
 >(
@@ -196,6 +196,7 @@ export const ComposedTableRow = React.forwardRef<
       status,
       className,
       method,
+      close,
       ...props
     },
     ref
@@ -222,13 +223,11 @@ export const ComposedTableRow = React.forwardRef<
         >
           {type}
         </TableCell>
+        <TableCell className='text-gray-500 text-[11px]'>{price}</TableCell>
         <TableCell className='text-gray-500 text-[11px]'>
           {enter_price}
         </TableCell>
 
-        <TableCell className='text-gray-500 text-[11px]'>
-          {close_price}
-        </TableCell>
         <TableCell
           className={clsx(
             isIncreasing && 'text-green-500  text-[11px] font-semibold',
@@ -237,12 +236,15 @@ export const ComposedTableRow = React.forwardRef<
         >
           {profit}
         </TableCell>
+        <TableCell className='text-[#1D6CE9] text-[11px] font-semibold'>
+          {close}
+        </TableCell>
       </TableRow>
     )
   }
 )
 
-export const ComposedTableRowTransaction = React.forwardRef<
+export const ComposedTableRowOrder = React.forwardRef<
   HTMLTableRowElement,
   MarketSymbolType & React.HTMLAttributes<HTMLTableRowElement>
 >(
@@ -263,6 +265,8 @@ export const ComposedTableRowTransaction = React.forwardRef<
       status,
       method,
       className,
+      close,
+      volume,
       ...props
     },
     ref
@@ -277,47 +281,42 @@ export const ComposedTableRowTransaction = React.forwardRef<
           className
         )}
       >
-        <TableCell>
-          <div
-            className={clsx(
-              'flex flex-col items-start',
-              type === 'Deposit' && 'text-[#1D6CE9] font-semibold text-[10px]',
-              type === 'Withdrawal' &&
-                'text-[#0D3169] font-semibold text-[10px]'
-            )}
-          >
-            <span>{type}</span>
-            <span className='text-[12px] font-semibold text-black'>
-              {method}
-            </span>
-          </div>
+        <TableCell className='font-semibold text-[12px] text-[#1E1E1E] flex items-center '>
+          <span>{symbol}</span>
         </TableCell>
-
-        <TableCell className='text-gray-500 text-[8px]'>{date}</TableCell>
-
-        <TableCell className='text-gray-500 text-[11px]'>{time}</TableCell>
-        <TableCell className='text-[#37BE26] text-[14px] '>{amount}</TableCell>
-
         <TableCell
           className={clsx(
-            status === 'Deposited' &&
-              'text-[#1D6CE9] text-[11px] font-semibold',
-            status === 'Pending' && 'text-gray-500 text-[11px] font-semibold',
-            status === 'Reject' && 'text-[#E14145] text-[11px] font-semibold'
+            'text-[11px] font-semibold',
+            type === 'Buy' && 'text-green-500',
+            type === 'Sell' && 'text-red-500'
           )}
         >
-          {status}
+          {type}
+        </TableCell>
+        <TableCell className='text-gray-500 text-[11px]'>{price}</TableCell>
+        <TableCell className='text-gray-500 text-[11px]'>
+          {enter_price}
+        </TableCell>
+        <TableCell className='text-gray-500 text-[11px] font-semibold '>
+          {volume}
+        </TableCell>
+
+        <TableCell className='text-[#1D6CE9] text-[11px] font-semibold'>
+          {close}
         </TableCell>
       </TableRow>
     )
   }
 )
 
-export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
+export default function PositionToggle ({
+  tab,
+  positionView
+}: PositionToggleProps) {
   return (
     <div className='relative overflow-hidden'>
       <AnimatePresence mode='wait'>
-        {tab === 'Trade' ? (
+        {tab === 'Position' ? (
           <motion.div
             key='Trade'
             initial={{ opacity: 0, x: 20 }}
@@ -326,7 +325,7 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <AnimatePresence mode='wait'>
-              {tradeView === 'form' ? (
+              {positionView === 'form' ? (
                 <motion.div
                   key='form'
                   initial={{ opacity: 0, x: 20 }}
@@ -336,16 +335,17 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
                 >
                   <Table>
                     <TableHeader>
-                      <TableRow className='bg-normal-blue-active hover:bg-dark-blue-hover text-[12px]'>
+                      <TableRow className='bg-normal-blue-active hover:bg-dark-blue-hover text-[11px]'>
                         <ComposedTableHead
                           content='Symbol'
                           extraClassNames='rounded-tl-2xl'
                         />
                         <ComposedTableHead content='Type' />
+                        <ComposedTableHead content='Price' />
                         <ComposedTableHead content='Enter Price' />
-                        <ComposedTableHead content='Close Price' />
+                        <ComposedTableHead content='P&L' />
                         <ComposedTableHead
-                          content='Profit'
+                          content='Close ALL'
                           extraClassNames='rounded-tr-2xl'
                         />
                       </TableRow>
@@ -355,7 +355,7 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
                       {symbols.map((symbol, idx) => (
                         <Sheet key={`symbol-table-row-${idx}`}>
                           <SheetTrigger asChild>
-                            <ComposedTableRow {...symbol} />
+                            <ComposedTableRowPosition {...symbol} />
                           </SheetTrigger>
 
                           <SheetContent
@@ -369,7 +369,7 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
                             </SheetHeader>
 
                             {/* INFO GRID */}
-                            <div className='flex flex-col gap-3 mt-4 px-5 pb-20'>
+                            <div className='flex flex-col gap-3 mt-4 px-5 pb-24'>
                               {[
                                 {
                                   label: 'Enter Price',
@@ -399,13 +399,6 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
                                 },
                                 {
                                   label: 'Created',
-                                  value: '06/09/2025',
-                                  time: '16:32:56',
-                                  valueClass: 'text-[#707070] text-[10px]',
-                                  valueeClass: 'text-[11px] text-[#707070]'
-                                },
-                                {
-                                  label: 'Closed',
                                   value: '06/09/2025',
                                   time: '16:32:56',
                                   valueClass: 'text-[#707070] text-[10px]',
@@ -445,6 +438,9 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
                                   </div>
                                 </div>
                               ))}
+                              <p className='bg-topnav-blue text-[12px] font-bold py-4 rounded-[6px] text-white text-center cursor-pointer'>
+                                CLOSE POSITION
+                              </p>
                             </div>
                           </SheetContent>
                         </Sheet>
@@ -468,26 +464,27 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
           >
             <Table>
               <TableHeader>
-                <TableRow className='bg-normal-blue-active hover:bg-dark-blue-hover text-[12px]'>
+                <TableRow className='bg-normal-blue-active hover:bg-dark-blue-hover text-[11px]'>
                   <ComposedTableHead
-                    content='Type'
+                    content='Symbol'
                     extraClassNames='rounded-tl-2xl'
                   />
-                  <ComposedTableHead content='Date' />
-                  <ComposedTableHead content='Time' />
-                  <ComposedTableHead content='Amount' />
+                  <ComposedTableHead content='Type' />
+                  <ComposedTableHead content='Price' />
+                  <ComposedTableHead content='Enter Price' />
+                  <ComposedTableHead content='Volume' />
                   <ComposedTableHead
-                    content='Status'
+                    content='Close ALL'
                     extraClassNames='rounded-tr-2xl'
                   />
                 </TableRow>
               </TableHeader>
 
               <TableBody>
-                {tansactions.map((tansaction, idx) => (
+                {orders.map((order, idx) => (
                   <Sheet key={`symbol-table-row-${idx}`}>
                     <SheetTrigger asChild>
-                      <ComposedTableRowTransaction {...tansaction} />
+                      <ComposedTableRowOrder {...order} />
                     </SheetTrigger>
 
                     <SheetContent
@@ -496,87 +493,90 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
                     >
                       <SheetHeader>
                         <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>
-                          {tansaction.type}
+                          {order.symbol}
                         </SheetTitle>
                       </SheetHeader>
 
-                      {/* INFO GRID */}
+                      {/* INFO GRID (UI updated with stacked up/down chevrons + radio for TP/SL) */}
                       <div className='flex flex-col gap-3 mt-4 px-5 pb-20'>
-                        {[
-                          {
-                            label: 'Enter Price',
-                            value: tansaction.enter_price
-                          },
-                          {
-                            label: 'Current Price',
-                            value: tansaction.close_price
-                          },
-                          { label: 'Volume', value: '0.1' },
-                          { label: 'Commission', value: `$${5.04}` },
-                          { label: 'Swap', value: `$${5.04}` },
-                          {
-                            label: 'Direction',
-                            value: tansaction.type,
-                            valueClass:
-                              tansaction.type === 'Buy'
-                                ? 'text-green-600 text-[16px]'
-                                : 'text-red-600 text-[16px]'
-                          },
-                          {
-                            label: 'P&L',
-                            value: tansaction.profit,
-                            valueClass: tansaction.isIncreasing
-                              ? 'text-green-600 text-[16px]'
-                              : 'text-red-600 text-[16px]'
-                          },
-                          {
-                            label: 'Created',
-                            value: '06/09/2025',
-                            time: '16:32:56',
-                            valueClass: 'text-[#707070] text-[10px]',
-                            valueeClass: 'text-[11px] text-[#707070]'
-                          },
-                          {
-                            label: 'Closed',
-                            value: '06/09/2025',
-                            time: '16:32:56',
-                            valueClass: 'text-[#707070] text-[10px]',
-                            valueeClass: 'text-[11px] text-[#707070]'
-                          }
-                        ].map((item, i) => (
-                          <div
-                            key={i}
-                            className='flex items-center justify-between bg-[#e5ecff] px-4 py-4 rounded-[6px]'
-                          >
-                            {/* Label */}
-                            <span className='label-text font-semibold text-[13px] text-black'>
-                              {item.label}
-                            </span>
+                        {/* Enter Price (with chevrons) */}
+                        <EditableRow
+                          label='Enter Price'
+                          defaultValue={+order.enter_price}
+                          step={0.00001}
+                          showRadio={false}
+                        />
 
-                            {/* Value + Time (if exists) */}
-                            <div className='text-right leading-tight'>
-                              <span
-                                className={clsx(
-                                  'value-text font-semibold text-[14px]',
-                                  item.valueClass || 'text-[#707070]'
-                                )}
-                              >
-                                {item.value}
-                              </span>
-                              {item.time && (
-                                <div
-                                  className={clsx(
-                                    'time-text mt-0.5',
-                                    item.valueeClass ||
-                                      'text-[11px] text-[#707070]'
-                                  )}
-                                >
-                                  {item.time}
-                                </div>
-                              )}
+                        {/* Current Price (readonly) */}
+                        <div className='flex items-center justify-between bg-[#e5ecff] px-4 py-4 rounded-[6px]'>
+                          <span className='font-semibold text-[13px] text-black'>
+                            Current Price
+                          </span>
+                          <span className='font-semibold text-[14px] text-[#707070]'>
+                            {order.close_price}
+                          </span>
+                        </div>
+
+                        {/* Volume (with chevrons) */}
+                        <EditableRow
+                          label='Volume'
+                          defaultValue={+order.volume}
+                          step={0.1}
+                          showRadio={false}
+                        />
+
+                        {/* Take Profit (radio left + chevrons) */}
+                        <EditableRow
+                          label='Take Profit'
+                          defaultValue={+order.enter_price}
+                          step={0.00001}
+                          showRadio={true}
+                        />
+
+                        {/* Stop Loss (radio left + chevrons) */}
+                        <EditableRow
+                          label='Stop Loss'
+                          defaultValue={+order.enter_price}
+                          step={0.00001}
+                          showRadio={true}
+                        />
+
+                        {/* Direction */}
+                        <div className='flex items-center justify-between bg-[#e5ecff] px-4 py-4 rounded-[6px]'>
+                          <span className='font-semibold text-[13px] text-black'>
+                            Direction
+                          </span>
+                          <span
+                            className={clsx(
+                              'font-semibold text-[14px]',
+                              order.type === 'Buy'
+                                ? 'text-green-600'
+                                : 'text-red-600'
+                            )}
+                          >
+                            {order.type}
+                          </span>
+                        </div>
+
+                        {/* Created */}
+                        <div className='flex items-center justify-between bg-[#e5ecff] px-4 py-4 rounded-[6px]'>
+                          <span className='font-semibold text-[13px] text-black'>
+                            Created
+                          </span>
+                          <div className='text-right'>
+                            <div className='text-[#707070] text-[11px]'>
+                              06/09/2025
+                            </div>
+                            <div className='text-[#707070] text-[10px]'>
+                              16:32:56
                             </div>
                           </div>
-                        ))}
+                        </div>
+
+                        {/* CLOSE ORDER */}
+                        <p className='bg-topnav-blue text-[12px] font-bold py-4 rounded-[6px] text-white text-center cursor-pointer'>
+                          CLOSE ORDER
+                        </p>
                       </div>
                     </SheetContent>
                   </Sheet>
@@ -589,3 +589,95 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
     </div>
   )
 }
+
+
+// Required imports at top of file:
+// import { ChevronUp, ChevronDown, Circle } from 'lucide-react'
+// import { useState } from 'react'
+// import clsx from 'clsx'
+
+function EditableRow({
+  label,
+  defaultValue,
+  step = 0.01,
+  showRadio = false
+}: {
+  label: string
+  defaultValue: number
+  step?: number
+  showRadio?: boolean
+}) {
+  const [value, setValue] = useState<number>(defaultValue ?? 0)
+  // radio active only used when showRadio === true
+  const [radioActive, setRadioActive] = useState<boolean>(false)
+
+  const increase = () => {
+    // preserve floating precision for small steps
+    const next = +(value + step)
+    setValue(Number(next.toFixed(5)))
+  }
+  const decrease = () => {
+    const next = +(value - step)
+    setValue(Number(next.toFixed(5)))
+  }
+
+  return (
+    <div className='flex items-center justify-between bg-[#e5ecff] px-4 py-4 rounded-[6px]'>
+      {/* Left side: optional radio + label */}
+      <div className='flex items-center gap-3'>
+        {showRadio ? (
+          <button
+            onClick={() => setRadioActive(!radioActive)}
+            aria-pressed={radioActive}
+            className={clsx(
+              'w-4 h-4 rounded-full flex items-center justify-center transition-colors',
+              radioActive ? 'bg-[#1D6CE9] border-[#1D6CE9]' : 'bg-gray-400 border-gray-300'
+            )}
+            style={{ boxShadow: radioActive ? '0 0 0 3px rgba(21,115,255,0.12)' : undefined }}
+          >
+            {radioActive && <Circle className='w-2 h-2 text-[#1D6CE9]' />}
+          </button>
+        ) : null}
+
+        <span className='font-semibold text-[13px] text-black'>{label}</span>
+      </div>
+
+      {/* Right side: value + stacked chevrons */}
+      <div className='flex items-center gap-3'>
+        {/* value display: underline style to match screenshot */}
+        <div className='text-right'>
+          <input
+            type='number'
+            step={step}
+            value={value}
+            onChange={e => setValue(Number(e.target.value))}
+            className={clsx(
+              'w-28 text-right bg-transparent outline-none font-semibold text-[14px] border-b-[1px] underline border-transparent',
+              showRadio ? (radioActive ? 'text-black' : 'text-gray-400') : 'text-black'
+            )}
+          />
+        </div>
+
+        {/* stacked chevrons in light rounded container */}
+        <div className='flex flex-col items-center justify-center'>
+          <button
+            onClick={increase}
+            className=' flex items-center justify-center'
+            aria-label='increase'
+          >
+            <ChevronUp className='w-4 h-4 text-[#1E1E1E]' />
+          </button>
+          <div className='h-[1px] w-full' />
+          <button
+            onClick={decrease}
+            className=' flex items-center justify-center'
+            aria-label='decrease'
+          >
+            <ChevronDown className='w-4 h-4 text-[#1E1E1E]' />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+

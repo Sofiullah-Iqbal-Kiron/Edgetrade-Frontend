@@ -13,12 +13,7 @@ export default function HistoryPage () {
   
     const [tab, setTab] = useState<'Trade' | 'Transaction'>('Trade')
     const [tradeView, setTradeView] = useState<'form' | 'info'>('form')
-    const [amount, setAmount] = useState('100')
-    const quickAmounts = [100, 250, 500, 1000, 2500]
   
-    const transactionFee = 0.0
-    const commission = 0.0
-    const total = (Number(amount || 0) + transactionFee + commission).toFixed(2)
   return (
     <div className=''>
       <div className='absolute top-5 right-0 left-0 text-white pt-[20px] px-6 flex gap-x-5'>
@@ -42,7 +37,7 @@ export default function HistoryPage () {
 
       <div className="mt-[40px]">
             {/* Toggle buttons with smooth animation */}
-            <div className='flex gap-x-3 mb-3 bg-[#DDE9FC] p-2 rounded-[10px] absolute top-[230px] left-2 right-2'>
+            <div className='flex gap-x-3 mb-3 bg-[#DDE9FC] p-2 rounded-[10px] absolute top-[255px] left-2 right-2'>
               <button
                 onClick={() => setTab('Trade')}
                 className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
@@ -67,11 +62,7 @@ export default function HistoryPage () {
                 tab={tab}
                 tradeView={tradeView}
                 setTradeView={setTradeView}
-              
-                quickAmounts={quickAmounts}
-                transactionFee={transactionFee}
-                commission={commission}
-                total={total}
+ 
               />
             </div>
           </div>
