@@ -165,9 +165,9 @@ function NavItem(item: NavItemType) {
           className={clsx(
             "flex items-center justify-center rounded-[12px]",
             isActive &&
-              (isTop
-                ? "bg-topnav-blue text-white w-10 h-10 p-[6px]"
-                : "bg-accent text-primary w-10 h-10 p-[6px]")
+            (isTop
+              ? "bg-topnav-blue text-white w-10 h-10 p-[6px]"
+              : "bg-accent text-primary w-10 h-10 p-[6px]")
           )}
         >
           <MenuIcon width={25} height={25} />
@@ -177,9 +177,9 @@ function NavItem(item: NavItemType) {
           className={clsx(
             "transition-all rounded-[12px]",
             isActive &&
-              (isTop
-                ? "bg-topnav-blue text-white w-10 h-10 p-[6px]"
-                : "bg-accent text-primary w-10 h-10 p-[6px]")
+            (isTop
+              ? "bg-topnav-blue text-white w-10 h-10 p-[6px]"
+              : "bg-accent text-primary w-10 h-10 p-[6px]")
           )}
           size={25}
           strokeWidth={isActive ? 1.5 : 1.5}

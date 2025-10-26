@@ -4,7 +4,7 @@ import { useSetActiveNav } from '@/lib/store'
 
 import { useEffect, useState } from 'react'
 
-export default function PositionsPage () {
+export default function PositionsPage() {
   const setActiveNav = useSetActiveNav()
 
   useEffect(() => {
@@ -74,21 +74,19 @@ export default function PositionsPage () {
         <div className='flex gap-x-3 mb-3 bg-[#DDE9FC] p-2 rounded-[10px] absolute top-[255px] left-2 right-2'>
           <button
             onClick={() => setTab('Position')}
-            className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
-              tab === 'Position'
-                ? 'bg-[#1D6CE9] text-white'
-                : 'bg-gray-100 text-gray-700'
-            }`}
+            className={`flex-1 py-4 rounded-lg text-sm font-semibold ${tab === 'Position'
+              ? 'bg-[#1D6CE9] text-white'
+              : 'bg-gray-100 text-gray-700'
+              }`}
           >
             Position
           </button>
           <button
             onClick={() => setTab('Order')}
-            className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
-              tab === 'Order'
-                ? 'bg-[#1D6CE9] text-white'
-                : 'bg-gray-100 text-gray-700'
-            }`}
+            className={`flex-1 py-4 rounded-lg text-sm font-semibold ${tab === 'Order'
+              ? 'bg-[#1D6CE9] text-white'
+              : 'bg-gray-100 text-gray-700'
+              }`}
           >
             Order
           </button>
