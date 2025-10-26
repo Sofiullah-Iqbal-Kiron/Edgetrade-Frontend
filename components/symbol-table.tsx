@@ -1,7 +1,11 @@
+"use client"
+
+// react
+import { useState } from "react"
+
 // shadcn/ui
-'use client'
-import { Button } from '@/components/ui/button'
-import React from 'react'
+import { Button } from "@/components/ui/button"
+import React from "react"
 import {
   Table,
   TableBody,
@@ -9,71 +13,76 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/components/ui/table'
+} from "@/components/ui/table"
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger
-} from '@/components/ui/sheet'
+} from "@/components/ui/sheet"
 
 // 3'rd party
-import clsx from 'clsx'
+import clsx from "clsx"
 
 // local
-import { MarketSymbolType } from '@/lib/types'
-import { useState } from 'react'
-// import { useState } from 'react'
+import { MarketSymbolType } from "@/lib/types"
+
 
 const symbols: Array<MarketSymbolType> = [
   {
-    symbol: 'AUD/USD',
-    type: 'Buy',
-    enter_price: '0.65419',
-    close_price: '0.65419',
-    profit: '+$47.23',
-    icon: '/images/usa-flag.png',
+    symbol: "AUD/USD",
+    type: "Buy",
+    enter_price: "0.65419",
+    close_price: "0.65419",
+    profit: "+$47.23",
+    icon: "/images/usa-flag.png",
     price: 0.64732,
     changeRate: 15.08,
     isIncreasing: true,
-    status: 'open',
-    date: '06/09/2025',
-    time: '16:32:56',
-    amount: '+$500.00',
-    method: 'Bank'
+    status: "open",
+    date: "06/09/2025",
+    time: "16:32:56",
+    amount: "+$500.00",
+    method: "Bank",
+    close: "1.2345",
+    volume: "1000"
   },
   {
-    symbol: 'ASELSAN',
-    type: 'Sell',
-    enter_price: '0.65419',
-    close_price: '0.65419',
-    profit: '+$47.23',
-    icon: '/images/ASELS.IS.png',
+    symbol: "ASELSAN",
+    type: "Sell",
+    enter_price: "0.65419",
+    close_price: "0.65419",
+    profit: "+$47.23",
+    icon: "/images/ASELS.IS.png",
     price: 0.65708,
     changeRate: 15.32,
     isIncreasing: false,
-    status: 'open',
-    date: '06/09/2025',
-    time: '16:32:56',
-    amount: '+$500.00',
-    method: 'Bank'
+    status: "open",
+    date: "06/09/2025",
+    time: "16:32:56",
+    amount: "+$500.00",
+    method: "Bank",
+    close: "1.2345",
+    volume: "1000"
   },
   {
-    symbol: 'GARAN',
-    type: 'Buy',
-    enter_price: '0.65419',
-    close_price: '0.65419',
-    profit: '+$47.23',
-    icon: '/images/GARAN.png',
+    symbol: "GARAN",
+    type: "Buy",
+    enter_price: "0.65419",
+    close_price: "0.65419",
+    profit: "+$47.23",
+    icon: "/images/GARAN.png",
     price: 62.45,
     changeRate: -0.45,
     isIncreasing: true,
-    status: 'closed',
-    date: '06/09/2025',
-    time: '16:32:56',
-    amount: '+$500.00',
-    method: 'Bank'
+    status: "closed",
+    date: "06/09/2025",
+    time: "16:32:56",
+    amount: "+$500.00",
+    method: "Bank",
+    close: "1.2345",
+    volume: "1000"
   }
 ]
 
@@ -82,14 +91,14 @@ interface ComposedTableHeadProps {
   extraClassNames?: string
 }
 
-function ComposedTableHead ({
+function ComposedTableHead({
   content,
   extraClassNames
 }: ComposedTableHeadProps) {
   return (
     <TableHead
       className={clsx(
-        'text-center text-accent font-semibold',
+        "text-center text-accent font-semibold",
         extraClassNames && `${extraClassNames}`
       )}
     >
@@ -97,31 +106,6 @@ function ComposedTableHead ({
     </TableHead>
   )
 }
-
-// function ComposedTableRow (symbol: MarketSymbolType) {
-//   const price = symbol.status === 'open' ? symbol.price : ''
-//   const change =
-//     symbol.status === 'open' ? `%${symbol.changeRate}` : 'Market Closed'
-
-//   return (
-//     <TableRow className='bg-secondary border-white dark:border-white/50 text-center cursor-pointer'>
-//       <TableCell className='font-bold flex items-center ml-5 gap-2'>
-//         <img src={symbol.icon} alt={symbol.symbol} className='w-4 h-4' />
-//         <span>{symbol.symbol}</span>
-//       </TableCell>
-//       <TableCell className='text-gray-500'>{price}</TableCell>
-//       <TableCell
-//         className={clsx(
-//           symbol.isIncreasing && 'text-green-500',
-//           !symbol.isIncreasing && 'text-red-600',
-//           change === 'Market Closed' && 'text-blue-500 font-bold'
-//         )}
-//       >
-//         {change}
-//       </TableCell>
-//     </TableRow>
-//   )
-// }
 
 export const ComposedTableRow = React.forwardRef<
   HTMLTableRowElement,
@@ -140,8 +124,8 @@ export const ComposedTableRow = React.forwardRef<
     },
     ref
   ) => {
-    const displayPrice = status === 'open' ? price : ''
-    const displayChange = status === 'open' ? `%${changeRate}` : 'Market Closed'
+    const displayPrice = status === "open" ? price : ""
+    const displayChange = status === "open" ? `%${changeRate}` : "Market Closed"
 
     return (
       <TableRow
@@ -149,20 +133,20 @@ export const ComposedTableRow = React.forwardRef<
         // ⬇ Important: Spread props so Radix can attach event handlers
         {...props}
         className={clsx(
-          'bg-secondary border-white dark:border-white/50 text-center cursor-pointer',
+          "bg-secondary border-white dark:border-white/50 text-center cursor-pointer",
           className
         )}
       >
-        <TableCell className='font-bold flex items-center ml-5 gap-2'>
-          <img src={icon} alt={symbol} className='w-4 h-4' />
+        <TableCell className="font-bold flex items-center ml-5 gap-2">
+          <img src={icon} alt={symbol} className="w-4 h-4" />
           <span>{symbol}</span>
         </TableCell>
-        <TableCell className='text-gray-500'>{displayPrice}</TableCell>
+        <TableCell className="text-gray-500">{displayPrice}</TableCell>
         <TableCell
           className={clsx(
-            isIncreasing && 'text-green-500',
-            !isIncreasing && 'text-red-600',
-            displayChange === 'Market Closed' && 'text-blue-500 font-bold'
+            isIncreasing && "text-green-500",
+            !isIncreasing && "text-red-600",
+            displayChange === "Market Closed" && "text-blue-500 font-bold"
           )}
         >
           {displayChange}
@@ -172,9 +156,9 @@ export const ComposedTableRow = React.forwardRef<
   }
 )
 
-ComposedTableRow.displayName = 'ComposedTableRow'
+ComposedTableRow.displayName = "ComposedTableRow"
 
-export default function SymbolTable () {
+export default function SymbolTable() {
   const [watchlist, setWatchlist] = useState<string[]>([])
 
   // Toggles symbol in/out of watchlist
@@ -188,15 +172,15 @@ export default function SymbolTable () {
   return (
     <Table>
       <TableHeader>
-        <TableRow className='bg-normal-blue-active hover:bg-dark-blue-hover text-[12px]'>
+        <TableRow className="bg-normal-blue-active hover:bg-dark-blue-hover text-[12px]">
           <ComposedTableHead
-            content='Symbol'
-            extraClassNames='rounded-tl-2xl'
+            content="Symbol"
+            extraClassNames="rounded-tl-2xl"
           />
-          <ComposedTableHead content='Price' />
+          <ComposedTableHead content="Price" />
           <ComposedTableHead
-            content='Change'
-            extraClassNames='rounded-tr-2xl'
+            content="Change"
+            extraClassNames="rounded-tr-2xl"
           />
         </TableRow>
       </TableHeader>
@@ -211,35 +195,35 @@ export default function SymbolTable () {
                 <ComposedTableRow {...symbol} />
               </SheetTrigger>
               <SheetContent
-                side='bottom'
-                className='bg-gradient-to-t from-[#002366] to-[#0047ab] border-none rounded-t-[28px] shadow-lg z-40 py-4'
+                side="bottom"
+                className="bg-gradient-to-t from-[#002366] to-[#0047ab] border-none rounded-t-[28px] shadow-lg z-40 py-4"
               >
                 <SheetHeader>
-                  <SheetTitle className='text-center text-light-blue font-bold'>
+                  <SheetTitle className="text-center text-light-blue font-bold">
                     {symbol.symbol}
                   </SheetTitle>
                 </SheetHeader>
-                <div className='grid gap-4 px-6 pb-30'>
+                <div className="grid gap-4 px-6 pb-30">
                   <Button
-                    variant='secondary'
-                    className='font-semibold text-sm rounded-[12px] bg-light-blue py-6'
+                    variant="secondary"
+                    className="font-semibold text-sm rounded-[12px] bg-light-blue py-6"
                   >
                     Chart
                   </Button>
                   <Button
-                    variant='secondary'
-                    className='font-semibold text-sm rounded-[12px] bg-light-blue py-6'
+                    variant="secondary"
+                    className="font-semibold text-sm rounded-[12px] bg-light-blue py-6"
                   >
                     Create Order
                   </Button>
                   <Button
                     onClick={() => toggleWatchlist(symbol.symbol)}
-                    variant='secondary'
+                    variant="secondary"
                     className={clsx(
-                      'font-semibold text-sm rounded-[12px] bg-light-blue py-6'
+                      "font-semibold text-sm rounded-[12px] bg-light-blue py-6"
                     )}
                   >
-                    {isInWatchlist ? 'Remove Watchlist' : 'Add Watchlist'}
+                    {isInWatchlist ? "Remove Watchlist" : "Add Watchlist"}
                   </Button>
                 </div>
               </SheetContent>
