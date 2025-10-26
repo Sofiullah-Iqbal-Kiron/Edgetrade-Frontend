@@ -360,7 +360,7 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
 
                           <SheetContent
                             side='bottom'
-                            className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 '
+                            className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 h-[500px] overflow-y-auto'
                           >
                             <SheetHeader>
                               <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>
@@ -492,7 +492,7 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
 
                     <SheetContent
                       side='bottom'
-                      className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 '
+                      className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 h-[500px] overflow-y-auto'
                     >
                       <SheetHeader>
                         <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>

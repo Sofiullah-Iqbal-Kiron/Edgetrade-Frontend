@@ -360,7 +360,7 @@ export default function PositionToggle ({
 
                           <SheetContent
                             side='bottom'
-                            className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 '
+                            className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 h-[500px] overflow-y-auto'
                           >
                             <SheetHeader>
                               <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>
@@ -464,7 +464,7 @@ export default function PositionToggle ({
           >
             <Table>
               <TableHeader>
-                <TableRow className='bg-normal-blue-active hover:bg-dark-blue-hover text-[11px]'>
+                <TableRow className='bg-normal-blue-active hover:bg-dark-blue-hover text-[11px] '>
                   <ComposedTableHead
                     content='Symbol'
                     extraClassNames='rounded-tl-2xl'
@@ -489,7 +489,7 @@ export default function PositionToggle ({
 
                     <SheetContent
                       side='bottom'
-                      className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 '
+                      className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 h-[500px] overflow-y-auto'
                     >
                       <SheetHeader>
                         <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>
