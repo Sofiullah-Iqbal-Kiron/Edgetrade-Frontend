@@ -17,11 +17,11 @@ export default function Home() {
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center">
         <div className="flex gap-4">
           <Link href="/signin" className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
-            Get Started
+            Signin
           </Link>
-          <button className="border border-border px-6 py-3 rounded-lg font-semibold hover:bg-accent transition-colors">
-            Learn More
-          </button>
+          <Link href="/dashboard/market" className="border border-border px-6 py-3 rounded-lg font-semibold hover:bg-accent transition-colors">
+            Dashboard
+          </Link>
         </div>
       </main>
 
