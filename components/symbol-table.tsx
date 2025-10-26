@@ -91,17 +91,9 @@ interface ComposedTableHeadProps {
   extraClassNames?: string
 }
 
-function ComposedTableHead({
-  content,
-  extraClassNames
-}: ComposedTableHeadProps) {
+function ComposedTableHead({ content, extraClassNames }: ComposedTableHeadProps) {
   return (
-    <TableHead
-      className={clsx(
-        "text-center text-accent font-semibold",
-        extraClassNames && `${extraClassNames}`
-      )}
-    >
+    <TableHead className={clsx("text-center text-accent font-semibold", extraClassNames && `${extraClassNames}`)}>
       {content}
     </TableHead>
   )
