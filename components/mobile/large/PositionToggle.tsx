@@ -360,16 +360,16 @@ export default function PositionToggle ({
 
                           <SheetContent
                             side='bottom'
-                            className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 h-[500px] overflow-y-auto'
+                            className='border-none rounded-t-[28px] z-40 py-4 h-[90vh] bg-dark-blue-hover shadow-[inset_-1px_3px_70.9px_3px_#000000B2]'
                           >
-                            <SheetHeader>
+                            <SheetHeader className='sticky'>
                               <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>
                                 {symbol.symbol}
                               </SheetTitle>
                             </SheetHeader>
 
                             {/* INFO GRID */}
-                            <div className='flex flex-col gap-3 mt-4 px-5 pb-24'>
+                            <div className='flex flex-col gap-3 mt-4 px-5 pb-24 overflow-y-auto'>
                               {[
                                 {
                                   label: 'Enter Price',
@@ -438,7 +438,7 @@ export default function PositionToggle ({
                                   </div>
                                 </div>
                               ))}
-                              <p className='bg-topnav-blue text-[12px] font-bold py-4 rounded-[6px] text-white text-center cursor-pointer'>
+                              <p className='bg-normal-blue text-[12px] font-bold py-4 rounded-[6px] text-white text-center cursor-pointer'>
                                 CLOSE POSITION
                               </p>
                             </div>
@@ -489,16 +489,16 @@ export default function PositionToggle ({
 
                     <SheetContent
                       side='bottom'
-                      className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 h-[500px] overflow-y-auto'
+                      className='border-none rounded-t-[28px] z-40 py-4 h-[90vh] bg-dark-blue-hover shadow-[inset_-1px_3px_70.9px_3px_#000000B2]'
                     >
-                      <SheetHeader>
+                      <SheetHeader className='sticky'>
                         <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>
                           {order.symbol}
                         </SheetTitle>
                       </SheetHeader>
 
                       {/* INFO GRID (UI updated with stacked up/down chevrons + radio for TP/SL) */}
-                      <div className='flex flex-col gap-3 mt-4 px-5 pb-20'>
+                      <div className='flex flex-col gap-3 mt-4 px-5 pb-20 overflow-y-auto'>
                         {/* Enter Price (with chevrons) */}
                         <EditableRow
                           label='Enter Price'
@@ -574,7 +574,7 @@ export default function PositionToggle ({
                         </div>
 
                         {/* CLOSE ORDER */}
-                        <p className='bg-topnav-blue text-[12px] font-bold py-4 rounded-[6px] text-white text-center cursor-pointer'>
+                        <p className='bg-normal-blue text-[12px] font-bold py-4 rounded-[6px] text-white text-center cursor-pointer'>
                           CLOSE ORDER
                         </p>
                       </div>

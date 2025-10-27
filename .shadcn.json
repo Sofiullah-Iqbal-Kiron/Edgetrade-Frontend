@@ -1,0 +1,10 @@
+{
+  "style": "default",
+  "rsc": false,
+  "tsconfigPath": "tsconfig.json",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  },
+  "packageManager": "npm"
+}
