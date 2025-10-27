@@ -142,11 +142,10 @@ const bottomNavSet: Array<NavItemType> = [
 
 function NavItem(item: NavItemType) {
   const pathname = usePathname()
-  const activeNav = useActiveNav()
   const setActiveNav = useSetActiveNav()
 
   // ✅ Fix: highlight on first click using URL
-  const isActive = pathname === item.link || activeNav === item.label
+  const isActive = pathname === item.link
   const isTop = item.variant === "top"
   const Icon = item.icon
 

@@ -178,7 +178,7 @@ export default function MenuPage() {
         className="py-4"
       />
 
-      {/* ✅ This now correctly applies 40px semibold text */}
+      
       <div className="w-full flex flex-row justify-between items-center px-3">
         {termsLinks.map((termLink, idx) => (
           <TermsLink
