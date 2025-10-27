@@ -3,9 +3,11 @@
 import DepositToggle from '@/components/mobile/md/depositToggle'
 import { useState } from 'react'
 
-export default function DepositPage() {
+export default function DepositPage () {
   const [tab, setTab] = useState<'Bank' | 'Crypto'>('Bank')
   const [bankView, setBankView] = useState<'form' | 'info'>('form')
+  const [cryptoView, setCryptoView] = useState<'form' | 'info'>('form')
+
   const [amount, setAmount] = useState('100')
   const quickAmounts = [100, 250, 500, 1000, 2500]
 
@@ -20,7 +22,9 @@ export default function DepositPage() {
         <button
           onClick={() => setTab('Bank')}
           className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
-            tab === 'Bank' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
+            tab === 'Bank'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-100 text-gray-700'
           }`}
         >
           Bank
@@ -28,7 +32,9 @@ export default function DepositPage() {
         <button
           onClick={() => setTab('Crypto')}
           className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
-            tab === 'Crypto' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
+            tab === 'Crypto'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-100 text-gray-700'
           }`}
         >
           Crypto
@@ -39,13 +45,14 @@ export default function DepositPage() {
         tab={tab}
         bankView={bankView}
         setBankView={setBankView}
+        cryptoView={cryptoView}
+        setCryptoView={setCryptoView}
         amount={amount}
         setAmount={setAmount}
         quickAmounts={quickAmounts}
         transactionFee={transactionFee}
         commission={commission}
         total={total}
-        
       />
     </div>
   )

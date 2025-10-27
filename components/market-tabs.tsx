@@ -39,7 +39,7 @@ export default function MarketTabs() {
             variant={isActiveTab ? 'default' : 'secondary'}
             onClick={() => setActiveMarketTab(tab.label)}
             className={clsx(
-              'rounded-full font-bold bg-white text-[13px]', // <-- changed here
+              'rounded-full font-bold bg-white text-[13px]',
               isActiveTab && 'text-white bg-primary'
             )}
           >

@@ -360,16 +360,16 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
 
                           <SheetContent
                             side='bottom'
-                            className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 h-[500px] overflow-y-auto'
+                            className='border-none rounded-t-[28px] z-40 py-4 h-[90vh] bg-dark-blue-hover shadow-[inset_-1px_3px_70.9px_3px_#000000B2]'
                           >
-                            <SheetHeader>
+                            <SheetHeader className='sticky'>
                               <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>
                                 {symbol.symbol}
                               </SheetTitle>
                             </SheetHeader>
 
                             {/* INFO GRID */}
-                            <div className='flex flex-col gap-3 mt-4 px-5 pb-20'>
+                            <div className='flex flex-col gap-3 mt-4 px-5 pb-20 overflow-y-auto'>
                               {[
                                 {
                                   label: 'Enter Price',
@@ -492,16 +492,16 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
 
                     <SheetContent
                       side='bottom'
-                      className='bg-[#11418C] border-none rounded-t-[28px] shadow-lg z-40 py-4 h-[500px] overflow-y-auto'
+                      className='border-none rounded-t-[28px] z-40 py-4 h-[90vh] bg-dark-blue-hover shadow-[inset_-1px_3px_70.9px_3px_#000000B2]'
                     >
-                      <SheetHeader>
+                      <SheetHeader className='sticky'>
                         <SheetTitle className='text-center text-white font-bold text-lg tracking-wide'>
                           {tansaction.type}
                         </SheetTitle>
                       </SheetHeader>
 
                       {/* INFO GRID */}
-                      <div className='flex flex-col gap-3 mt-4 px-5 pb-20'>
+                      <div className='flex flex-col gap-3 mt-4 px-5 pb-20 overflow-y-auto'>
                         {[
                           {
                             label: 'Enter Price',

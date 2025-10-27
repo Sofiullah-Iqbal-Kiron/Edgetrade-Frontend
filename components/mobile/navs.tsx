@@ -166,7 +166,7 @@ function NavItem(item: NavItemType) {
             "flex items-center justify-center rounded-[12px]",
             isActive &&
             (isTop
-              ? "bg-topnav-blue text-white w-10 h-10 p-[6px]"
+              ? "bg-normal-blue text-white w-10 h-10 p-[6px]"
               : "bg-accent text-primary w-10 h-10 p-[6px]")
           )}
         >
@@ -178,7 +178,7 @@ function NavItem(item: NavItemType) {
             "transition-all rounded-[12px]",
             isActive &&
             (isTop
-              ? "bg-topnav-blue text-white w-10 h-10 p-[6px]"
+              ? "bg-normal-blue text-white w-10 h-10 p-[6px]"
               : "bg-accent text-primary w-10 h-10 p-[6px]")
           )}
           size={25}
