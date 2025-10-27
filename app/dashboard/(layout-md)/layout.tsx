@@ -11,7 +11,7 @@ export default function DashboardMdLayout ({
   return (
     <div className='bg-white'>
       {/* Top Blue Header */}
-      <div className='bg-primary text-white rounded-b-[12px] shadow-md w-full h-[270px] relative'>
+      <div className='bg-primary text-white rounded-b-[12px] shadow-[inset_0px_36.1px_36.1px_4.9px_#00000040] w-full h-[270px] relative '>
         <EquityCard />
         <div className='px-2'>
           <TopNav />

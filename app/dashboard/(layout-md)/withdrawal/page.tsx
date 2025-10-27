@@ -28,7 +28,7 @@ export default function WithdrawalPage() {
         <button
           onClick={() => setTab('Bank')}
           className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
-            tab === 'Bank' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
+            tab === 'Bank' ? 'bg-normal-blue text-white' : 'bg-white '
           }`}
         >
           Bank
@@ -36,7 +36,7 @@ export default function WithdrawalPage() {
         <button
           onClick={() => setTab('Crypto')}
           className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
-            tab === 'Crypto' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
+            tab === 'Crypto' ? 'bg-normal-blue text-white' : 'bg-white '
           }`}
         >
           Crypto

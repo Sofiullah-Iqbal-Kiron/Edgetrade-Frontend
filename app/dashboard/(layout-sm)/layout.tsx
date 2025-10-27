@@ -9,7 +9,7 @@ export default function DashboardSmallLayout ({
   return (
     <div className='bg-white'>
       {/* Top Blue Header */}
-      <div className='bg-primary text-white pb-6 rounded-b-[12px] shadow-md w-full h-[100px] relative'></div>
+      <div className='bg-primary text-white pb-6 rounded-b-[12px] shadow-[inset_0px_36.1px_36.1px_4.9px_#00000040] w-full h-[100px] relative'></div>
 
       <div className='absolute top-14 left-0 right-0 px-4'>
         <TopNav />
