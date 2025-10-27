@@ -78,7 +78,7 @@ export default function DepositInfoBank ({
 
       <button
         onClick={() => setBankView('info')}
-        className='w-full py-3 rounded-[6px] bg-normal-blue-hover text-white font-bold text-sm'
+        className='w-full py-3 rounded-[6px] bg-normal-blue text-white font-bold text-sm'
       >
         Deposit
       </button>

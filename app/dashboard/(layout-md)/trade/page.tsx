@@ -20,8 +20,8 @@ export default function TradePage() {
             onClick={() => setTab(t as 'Trade' | 'Order')}
             className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
               tab === t
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'bg-gray-100 text-gray-700 '
+                ? 'bg-normal-blue text-white'
+                : 'bg-white '
             }`}
           >
             {t}

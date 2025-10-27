@@ -23,8 +23,8 @@ export default function DepositPage () {
           onClick={() => setTab('Bank')}
           className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
             tab === 'Bank'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-700'
+              ? 'bg-normal-blue text-white'
+              : 'bg-white'
           }`}
         >
           Bank
@@ -33,8 +33,8 @@ export default function DepositPage () {
           onClick={() => setTab('Crypto')}
           className={`flex-1 py-4 rounded-lg text-sm font-semibold ${
             tab === 'Crypto'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-700'
+              ? 'bg-normal-blue text-white'
+              : 'bg-white '
           }`}
         >
           Crypto
