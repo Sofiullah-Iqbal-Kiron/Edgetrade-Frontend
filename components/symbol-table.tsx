@@ -1,5 +1,9 @@
-// shadcn/ui
 'use client'
+
+// react
+import { useState } from 'react'
+
+// shadcn/ui
 import { Button } from '@/components/ui/button'
 import React, { useEffect, useState } from 'react'
 import {
@@ -23,7 +27,35 @@ import clsx from 'clsx'
 
 // local
 import { MarketSymbolType } from '@/lib/types'
-import { getMarketSymbols, getAllPrices } from '@/lib/api/calls'
+import { useState } from 'react'
+// import { useState } from 'react'
+
+const symbols: Array<MarketSymbolType> = [
+  {
+    symbol: 'AUD/USD',
+    icon: '/images/usa-flag.png',
+    price: 0.64732,
+    changeRate: 15.08,
+    isIncreasing: true,
+    status: 'open'
+  },
+  {
+    symbol: 'ASELSAN',
+    icon: '/images/ASELS.IS.png',
+    price: 0.65708,
+    changeRate: 15.32,
+    isIncreasing: false,
+    status: 'open'
+  },
+  {
+    symbol: 'GARAN',
+    icon: '/images/GARAN.png',
+    price: 62.45,
+    changeRate: -0.45,
+    isIncreasing: true,
+    status: 'closed'
+  }
+]
 
 interface ComposedTableHeadProps {
   content: string
@@ -230,7 +262,7 @@ export default function SymbolTable () {
               </SheetTrigger>
               <SheetContent
                 side='bottom'
-                className='bg-gradient-to-t from-[#002366] to-[#0047ab] border-none rounded-t-[28px] shadow-lg z-40 py-4'
+                className='rounded-t-[28px] z-40 py-4 border-none bg-dark-blue-hover shadow-[inset_-1px_3px_70.9px_3px_#000000B2]'
               >
                 <SheetHeader>
                   <SheetTitle className='text-center text-light-blue font-bold'>

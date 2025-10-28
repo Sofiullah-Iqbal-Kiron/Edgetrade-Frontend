@@ -131,7 +131,7 @@ export default function PersonalInformationPage () {
 
           <Button
             type='submit'
-            className='w-full text-sm bg-[#1D6CE9] py-6 text-white font-bold rounded-[6px] mt-[60px]'
+            className='w-full text-sm bg-normal-blue py-6 text-white font-bold rounded-[6px] mt-[60px]'
           >
             Upload Documents
           </Button>
