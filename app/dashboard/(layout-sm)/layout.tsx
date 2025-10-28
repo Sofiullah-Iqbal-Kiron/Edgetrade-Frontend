@@ -7,7 +7,7 @@ export default function DashboardSmallLayout ({
   children: React.ReactNode
 }) {
   return (
-    <div className='bg-white'>
+    <div className='bg-white lg:hidden'>
       {/* Top Blue Header */}
       <div className='bg-primary text-white pb-6 rounded-b-[12px] shadow-[inset_0px_36.1px_36.1px_4.9px_#00000040] w-full h-[100px] relative'></div>
 

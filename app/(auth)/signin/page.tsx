@@ -1,19 +1,12 @@
 "use client"
 
-// react
-import { useState } from "react"
-
-// nextjs
 import Link from "next/link"
 import Image from "next/image"
-
-// shadcn/ui
-import { Checkbox } from "@/components/ui/checkbox"
+import { useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-
-// local
+import { Checkbox } from "@/components/ui/checkbox"
 import signinLogo from "../../../public/logo/signin-top-logo.png"
 
 
@@ -35,7 +28,7 @@ export default function SignInPage() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="relative z-40 w-full max-w-sm bg-white/20 backdrop-blur-md border border-white/30 shadow-2xl p-8">
+      <div className="relative z-40 w-full max-w-[431px] bg-[#EAEAEA00] backdrop-blur-3xl shadow-2xl p-8 -mt-[150px] lg:-mt-[250px]">
         <div className="text-center mb-6">
           <div className="flex justify-center mb-2">
             <Image src={signinLogo} alt="EdgeTrade Logo" width={50} height={50} />
@@ -49,7 +42,7 @@ export default function SignInPage() {
           </h2>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <Label
               htmlFor="email"
@@ -97,15 +90,15 @@ export default function SignInPage() {
                 Stay Logged In
               </Label>
             </div>
-            <a href="#" className="hover:underline font-bold text-[12px] text-[#ffffff98]">
+            <Link href="/forget-password" className="hover:underline font-bold text-[12px] text-[#ffffff98]">
               Forget password?
-            </a>
+            </Link>
           </div>
 
           <Link href="/dashboard/market">
             <Button
               type='submit'
-              className='w-full  bg-[#1D6CE9] rounded-none py-6 text-white text-[18px] font-bold'
+              className='w-full  bg-normal-blue rounded-none py-6 text-white text-[18px] font-bold'
             >
               Sign in
             </Button>
