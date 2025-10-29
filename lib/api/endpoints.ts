@@ -26,6 +26,7 @@ export const endpoints = {
     // Orders
     orders: `${API_BASE_V1}/orders`,
     order_detail: (id: string) => `${API_BASE_V1}/orders/${id}`,
+    order_close: (id: string) => `${API_BASE_V1}/orders/${id}/close`,
 
     // Trades
     trades: `${API_BASE_V1}/trades`,

@@ -2,6 +2,7 @@
 import HistoryToggle from "@/components/mobile/large/HistoryToggle";
 import { useEffect, useState } from "react";
 import { useSetActiveNav } from '@/lib/store'
+import { getTrades, getTradeStatistics, getTradingAccounts } from '@/lib/api/calls'
 
 export default function HistoryPage () {
 
@@ -13,6 +14,41 @@ export default function HistoryPage () {
   
     const [tab, setTab] = useState<'Trade' | 'Transaction'>('Trade')
     const [tradeView, setTradeView] = useState<'form' | 'info'>('form')
+    const [totalPnL, setTotalPnL] = useState('$547.23')
+    const [totalSwap, setTotalSwap] = useState('10.00')
+    const [totalCommission, setTotalCommission] = useState('00.00')
+    const [balance, setBalance] = useState('$10,000.00')
+
+    // Fetch trade statistics on load
+    useEffect(() => {
+      const fetchStatistics = async () => {
+        try {
+          const accounts = await getTradingAccounts()
+          if (accounts && accounts.length > 0) {
+            const statistics = await getTradeStatistics(accounts[0].id)
+            
+            // Update stats from API
+            if (statistics.total_pnl) {
+              setTotalPnL(`$${statistics.total_pnl.toFixed(2)}`)
+            }
+            if (statistics.total_swap !== undefined) {
+              setTotalSwap(statistics.total_swap.toFixed(2))
+            }
+            if (statistics.total_commission !== undefined) {
+              setTotalCommission(statistics.total_commission.toFixed(2))
+            }
+            
+            // Get balance from the account
+            const balanceValue = accounts[0].balance || 10000
+            setBalance(`$${balanceValue.toFixed(2)}`)
+          }
+        } catch (error) {
+          console.error('Error fetching trade statistics:', error)
+        }
+      }
+      
+      fetchStatistics()
+    }, [])
   
   return (
     <div className=''>
@@ -22,15 +58,15 @@ export default function HistoryPage () {
           <p className="text-[15px] text-[#EAEAEA] mt-5">
             Total P&L 
           </p>
-          <span className="text-[28px] font-semibold">$547.23</span>
+          <span className="text-[28px] font-semibold">{totalPnL}</span>
         </div>
         <div>
           <span className="text-[#C8C6C6] text-[12px]">Total Swap($)</span>
-          <p className="text-[18px] font-semibold">10.00</p>
+          <p className="text-[18px] font-semibold">{totalSwap}</p>
           <span className="text-[#C8C6C6] text-[12px] mt-1">Total Commission($)</span>
-          <p className="text-[18px] font-semibold">00.00</p>
+          <p className="text-[18px] font-semibold">{totalCommission}</p>
           <span className="text-[#C8C6C6] text-[12px] mt-1">Balance</span>
-          <p className="text-[18px] font-semibold">$10,000.00</p>
+          <p className="text-[18px] font-semibold">{balance}</p>
         </div>
       </div>
 

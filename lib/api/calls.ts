@@ -99,6 +99,25 @@ export async function getAccountBalance(accountId: number) {
     return getCall(endpoints.account_balance(accountId), getConfig())
 }
 
+// Order API calls
+export async function placeOrder(orderData: any) {
+    return postCall(endpoints.orders, orderData, getConfig())
+}
+
+export async function getOrders(accountId: number, status?: string) {
+    const params = new URLSearchParams({ account_id: accountId.toString() })
+    if (status) params.append('status', status)
+    return getCall(`${endpoints.orders}?${params.toString()}`, getConfig())
+}
+
+export async function closeOrder(orderId: string) {
+    return postCall(endpoints.order_close(orderId), {}, getConfig())
+}
+
+export async function cancelOrder(orderId: string) {
+    return deleteCall(endpoints.order_detail(orderId), getConfig())
+}
+
 // Market Data API calls
 export async function getMarketSymbols() {
     return getCall(endpoints.market_symbols, getConfig())
@@ -110,6 +129,20 @@ export async function getSymbolPrice(symbol: string) {
 
 export async function getAllPrices() {
     return getCall(endpoints.market_prices, getConfig())
+}
+
+// Trade History API calls
+export async function getTrades(accountId: number, page: number = 1, pageSize: number = 50) {
+    const params = new URLSearchParams({
+        account_id: accountId.toString(),
+        page: page.toString(),
+        page_size: pageSize.toString()
+    })
+    return getCall(`${endpoints.trades}?${params.toString()}`, getConfig())
+}
+
+export async function getTradeStatistics(accountId: number) {
+    return getCall(`${endpoints.trade_statistics}?account_id=${accountId}`, getConfig())
 }
 
 // Legacy functions for compatibility

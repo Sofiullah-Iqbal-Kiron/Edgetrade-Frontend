@@ -8,7 +8,9 @@ import usdtLogo from '@/public/logo/USDT - Tether.png'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '@/components/ui/input'
 import { Plus, Minus, Circle, ChevronUp, ChevronDown } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getOrders, getTradingAccounts, closeOrder } from '@/lib/api/calls'
+import { toast } from 'sonner'
 
 interface PositionToggleProps {
   tab: 'Position' | 'Order'
@@ -313,10 +315,111 @@ export default function PositionToggle ({
   tab,
   positionView
 }: PositionToggleProps) {
+  const [positions, setPositions] = useState<any[]>([])
+  const [pendingOrders, setPendingOrders] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // Fetch positions and orders
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accounts = await getTradingAccounts()
+        if (accounts && accounts.length > 0) {
+          const accountId = accounts[0].id
+          
+          // Get open orders (positions)  
+          const openOrdersResponse = await getOrders(accountId, 'open')
+          const openOrders = openOrdersResponse.orders || []
+          
+          console.log('Fetched open orders:', openOrders) // Debug log
+          
+          // Transform open orders to positions
+          const transformedPositions = openOrders.map((order: any) => ({
+            symbol: order.symbol || 'UNKNOWN',
+            type: order.side || 'Buy',
+            price: (order.executed_price || 0).toFixed(5),
+            enter_price: (order.executed_price || 0).toFixed(5),
+            volume: order.quantity?.toFixed(2) || '0.00',
+            profit: order.unrealized_pnl > 0 
+              ? `+$${order.unrealized_pnl.toFixed(2)}`
+              : `$${order.unrealized_pnl.toFixed(2)}`,
+            icon: '/images/usa-flag.png',
+            changeRate: 0,
+            isIncreasing: order.unrealized_pnl >= 0,
+            status: 'open',
+            close: 'Close',
+            orderId: order.order_id
+          }))
+          
+          console.log('Transformed positions:', transformedPositions) // Debug log
+          
+          // Get pending orders
+          const pendingResponse = await getOrders(accountId, 'pending')
+          const pending = pendingResponse.orders || []
+          const transformedPending = pending.map((order: any) => ({
+            symbol: order.symbol || 'UNKNOWN',
+            type: order.side || 'Buy',
+            price: (order.price || order.executed_price || 0).toFixed(5),
+            enter_price: (order.executed_price || 0).toFixed(5),
+            volume: order.quantity?.toFixed(2) || '0.00',
+            profit: 'Pending',
+            icon: '/images/usa-flag.png',
+            changeRate: 0,
+            isIncreasing: true,
+            status: 'pending',
+            close: 'Cancel',
+            orderId: order.order_id
+          }))
+          
+          // Always use API data (even if empty), no fallback to static
+          setPositions(transformedPositions)
+          setPendingOrders(transformedPending)
+        } else {
+          // No trading account - show empty
+          console.warn('No trading accounts found')
+          setPositions([])
+          setPendingOrders([])
+        }
+      } catch (error) {
+        console.error('Error fetching positions/orders:', error)
+        // On error, show empty array instead of static data
+        setPositions([])
+        setPendingOrders([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchData()
+    
+    // Auto-refresh every 5 seconds to show new positions
+    const interval = setInterval(fetchData, 5000)
+    
+    return () => clearInterval(interval)
+  }, [])
+
+  // Handle close position
+  const handleClose = async (orderId: string) => {
+    try {
+      await closeOrder(orderId)
+      toast.success('Position closed successfully!')
+      // Refresh data
+      window.location.reload()
+    } catch (error: any) {
+      console.error('Error closing position:', error)
+      toast.error(error.response?.data?.detail || 'Failed to close position')
+    }
+  }
+
   return (
     <div className='relative overflow-hidden'>
-      <AnimatePresence mode='wait'>
-        {tab === 'Position' ? (
+      {loading ? (
+        <div className="flex justify-center items-center py-8">
+          <span className="text-lg text-[#C8C6C6]">Loading...</span>
+        </div>
+      ) : (
+        <AnimatePresence mode='wait'>
+          {tab === 'Position' ? (
           <motion.div
             key='Trade'
             initial={{ opacity: 0, x: 20 }}
@@ -352,11 +455,18 @@ export default function PositionToggle ({
                     </TableHeader>
 
                     <TableBody>
-                      {symbols.map((symbol, idx) => (
-                        <Sheet key={`symbol-table-row-${idx}`}>
-                          <SheetTrigger asChild>
-                            <ComposedTableRowPosition {...symbol} />
-                          </SheetTrigger>
+                      {positions.length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                            No open positions. Place a trade to see your positions here.
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        positions.map((symbol, idx) => (
+                          <Sheet key={`symbol-table-row-${idx}`}>
+                            <SheetTrigger asChild>
+                              <ComposedTableRowPosition {...symbol} onClick={() => handleClose(symbol.orderId)} />
+                            </SheetTrigger>
 
                           <SheetContent
                             side='bottom'
@@ -444,7 +554,8 @@ export default function PositionToggle ({
                             </div>
                           </SheetContent>
                         </Sheet>
-                      ))}
+                        ))
+                      )}
                     </TableBody>
                   </Table>
                 </motion.div>
@@ -481,7 +592,7 @@ export default function PositionToggle ({
               </TableHeader>
 
               <TableBody>
-                {orders.map((order, idx) => (
+                {pendingOrders.map((order, idx) => (
                   <Sheet key={`symbol-table-row-${idx}`}>
                     <SheetTrigger asChild>
                       <ComposedTableRowOrder {...order} />
@@ -586,6 +697,7 @@ export default function PositionToggle ({
           </motion.div>
         )}
       </AnimatePresence>
+      )}
     </div>
   )
 }

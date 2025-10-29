@@ -1,8 +1,5 @@
 'use client'
 
-// react
-import { useState } from 'react'
-
 // shadcn/ui
 import { Button } from '@/components/ui/button'
 import React, { useEffect, useState } from 'react'
@@ -26,36 +23,8 @@ import {
 import clsx from 'clsx'
 
 // local
-import { MarketSymbolType } from '@/lib/types'
-import { useState } from 'react'
-// import { useState } from 'react'
-
-const symbols: Array<MarketSymbolType> = [
-  {
-    symbol: 'AUD/USD',
-    icon: '/images/usa-flag.png',
-    price: 0.64732,
-    changeRate: 15.08,
-    isIncreasing: true,
-    status: 'open'
-  },
-  {
-    symbol: 'ASELSAN',
-    icon: '/images/ASELS.IS.png',
-    price: 0.65708,
-    changeRate: 15.32,
-    isIncreasing: false,
-    status: 'open'
-  },
-  {
-    symbol: 'GARAN',
-    icon: '/images/GARAN.png',
-    price: 62.45,
-    changeRate: -0.45,
-    isIncreasing: true,
-    status: 'closed'
-  }
-]
+import { MarketSymbolType, MarketStatusType } from '@/lib/types'
+import { getMarketSymbols, getAllPrices } from '@/lib/api/calls'
 
 interface ComposedTableHeadProps {
   content: string
@@ -183,7 +152,7 @@ export default function SymbolTable () {
             price: 0.64732,
             changeRate: 15.08,
             isIncreasing: true,
-            status: 'open'
+            status: 'open' as MarketStatusType
           },
           {
             symbol: 'ASELSAN',
@@ -191,7 +160,7 @@ export default function SymbolTable () {
             price: 0.65708,
             changeRate: 15.32,
             isIncreasing: false,
-            status: 'open'
+            status: 'open' as MarketStatusType
           },
           {
             symbol: 'GARAN',
@@ -199,7 +168,7 @@ export default function SymbolTable () {
             price: 62.45,
             changeRate: -0.45,
             isIncreasing: true,
-            status: 'closed'
+            status: 'closed' as MarketStatusType
           }
         ])
       } finally {

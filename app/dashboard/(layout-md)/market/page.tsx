@@ -21,16 +21,16 @@ export default function MarketPage () {
   return (
     <div className='space-y-4 w-full mt-[35px]'>
       <MarketTabs />
-      <div className='relative text-white flex items-center mt-3'>
-        <Input
-          className='bg-zinc-700 text-white w-full py-[10px] outline-none rounded-[30px] pl-[50px] text-sm'
-          placeholder={`Try "Aselsan"`}
-          type='text'
-        ></Input>
-        <SearchIcon
-          className='absolute top-[9px] left-3 text-white'
-          size={20}
-        />
+      <div className='mt-3'>
+        <InputGroup className="rounded-full bg-zinc-700 text-white/80">
+          <InputGroupAddon>
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupInput
+            type="text"
+            placeholder={`Try "Aselsan"`}
+          />
+        </InputGroup>
       </div>
 
       <SymbolTable />
