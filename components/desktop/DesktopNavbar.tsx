@@ -1,20 +1,31 @@
 import { Search } from "lucide-react";
+import RoundProgress from "../ui/progess";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 export default function DesktopNavbar() {
   return (
-    <header className="w-full bg-white shadow px-6 py-3 flex items-center justify-between">
-      <div className="flex items-center space-x-8 text-sm">
-        <div><span className="text-gray-500">Balance</span> <p className="font-semibold">$10,500.00</p></div>
-        <div><span className="text-gray-500">Equity</span> <p className="font-semibold">$10,660.00</p></div>
-        <div><span className="text-gray-500">Margin Used / Free</span> <p className="font-semibold">$560.00 / 660.00</p></div>
-        <div><span className="text-gray-500">Margin Level</span> <p className="font-semibold">205.30%</p></div>
-        <div><span className="text-gray-500">Total Unrealized P/L</span> <p className="font-semibold text-green-600">$2,304.02</p></div>
-        <div><span className="text-gray-500">Time Zone</span> <p className="font-semibold">13:31:08 (6+)</p></div>
+    <header className="w-full h-[50px] bg-white shadow px-6 py-3 flex items-center justify-between">
+      <div className="flex items-center space-x-5 text-sm">
+        <div><span className="text-[#767676] text-[12px]">Balance</span> <p className="text-[#5D5D5D] font-bold">$10,500.00</p></div>
+        <div><span className="text-[#767676] text-[12px]">Equity</span> <p className="text-[#5D5D5D] font-bold">$10,660.00</p></div>
+       
+        <div className="flex gap-x-2 items-center">
+          <RoundProgress/>
+          <div>
+            <span className="text-[#767676] text-[12px]">Margin Used / Free</span> 
+          <p className="text-[#5D5D5D] font-bold">$560.00 / 660.00</p>
+          </div>
+          </div>
+        <div><span className="text-[#767676] text-[12px]">Margin Level</span> <p className="text-[#767676] text-[12px]">205.30%</p></div>
+        <div><span className="text-[#767676] text-[12px]">Total Unrealized P/L</span> <p className="font-bold text-[#1BB507]">-$2,304.02</p></div>
+        <div><span className="text-[#767676] text-[12px]">Time Zone</span> <p className="text-[#5D5D5D] font-bold">13:31:08 (6+)</p></div>
+         <Search size={20} className="text-[#767676] cursor-pointer" />
       </div>
 
-      <div className="flex items-center space-x-4">
-        <Search size={20} className="text-gray-600 cursor-pointer" />
-        <span className="font-semibold text-sm">EMMA BROWN 98765 - USD</span>
+      <div className="flex items-center space-x-1">
+        <span className="font-bold text-sm text-[#5D5D5D]">EMMA BROWN 98765 - <span className="text-[#707070] font-normal ml-[4px]">USD</span></span>
+        <IoMdArrowDropdown className="text-[#707070]"/>
+
       </div>
     </header>
   );
