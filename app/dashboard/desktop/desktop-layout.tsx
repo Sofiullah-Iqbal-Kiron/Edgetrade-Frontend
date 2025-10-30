@@ -1,4 +1,4 @@
-import DesktopNavbar from '@/components/desktop/DesktopNavbar'
+import DesktopNavbar from '@/components/desktop/DesktopNav/DesktopNavbar'
 import DesktopSidebar from '@/components/desktop/DesktopSidebar'
 import { SubContainerDesktop } from '@/components/desktop/SubContainerDesktop'
 

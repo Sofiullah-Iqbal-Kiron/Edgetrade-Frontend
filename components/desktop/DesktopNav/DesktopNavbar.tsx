@@ -1,6 +1,7 @@
 import { Search } from "lucide-react";
-import RoundProgress from "../ui/progess";
+import RoundProgress from "../../ui/progess";
 import { IoMdArrowDropdown } from "react-icons/io";
+import DesktopDropdown from "./DesktopNavDropdown";
 
 export default function DesktopNavbar() {
   return (
@@ -21,12 +22,12 @@ export default function DesktopNavbar() {
         <div><span className="text-[#767676] text-[12px]">Time Zone</span> <p className="text-[#5D5D5D] font-bold">13:31:08 (6+)</p></div>
          <Search size={20} className="text-[#767676] cursor-pointer" />
       </div>
+      <DesktopDropdown/>
 
-      <div className="flex items-center space-x-1">
+      {/* <div className="flex items-center space-x-1">
         <span className="font-bold text-sm text-[#5D5D5D]">EMMA BROWN 98765 - <span className="text-[#707070] font-normal ml-[4px]">USD</span></span>
         <IoMdArrowDropdown className="text-[#707070]"/>
-
-      </div>
+      </div> */}
     </header>
   );
 }
