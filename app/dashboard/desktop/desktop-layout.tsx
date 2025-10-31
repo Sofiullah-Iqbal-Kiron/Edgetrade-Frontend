@@ -1,5 +1,5 @@
 import DesktopNavbar from '@/components/desktop/DesktopNav/DesktopNavbar'
-import DesktopSidebar from '@/components/desktop/DesktopSidebar'
+import DesktopSidebar from '@/components/desktop/DesktopSidebar/DesktopSidebar'
 import { SubContainerDesktop } from '@/components/desktop/SubContainerDesktop'
 
 export default function DashboardDesktopLayout ({
