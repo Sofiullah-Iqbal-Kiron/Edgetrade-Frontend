@@ -1,6 +1,6 @@
 // Backend API endpoints.
 
-const API_BASE_V1 = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/v1"
+const API_BASE_V1 = "http://91.108.122.156/api/v1"
 
 export const endpoints = {
     // Authentication
