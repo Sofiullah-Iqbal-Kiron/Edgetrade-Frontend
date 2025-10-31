@@ -106,13 +106,12 @@ import { usePathname } from "next/navigation"
 import clsx from "clsx"
 
 // local
-import { MenuIcon, TradeIcon } from "@/components/icons"
+import { MenuIcon, TradeIcon, PositionIcon } from "@/components/icons"
 import {
   LucideIcon,
   WalletMinimal as DepositIcon,
   TrendingUp as MarketIcon,
   BarChart3 as ChartIcon,
-  Briefcase as PositionsIcon,
   History as HistoryIcon,
 } from "lucide-react"
 
@@ -136,7 +135,7 @@ const topNavSet: Array<NavItemType> = [
 const bottomNavSet: Array<NavItemType> = [
   { label: "Market", icon: MarketIcon, link: "/dashboard/market" },
   { label: "Chart", icon: ChartIcon, link: "/dashboard/chart" },
-  { label: "Positions", icon: PositionsIcon, link: "/dashboard/positions" },
+  { label: "Positions", icon: PositionIcon as LucideIcon, link: "/dashboard/positions" },
   { label: "History", icon: HistoryIcon, link: "/dashboard/history" },
 ]
 
