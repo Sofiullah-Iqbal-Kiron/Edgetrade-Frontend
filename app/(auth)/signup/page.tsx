@@ -47,7 +47,7 @@ export default function SignUpPage () {
         phone: formData.phoneNumber,
         country: "Bangladesh", // Set default country automatically
         id_number: formData.id,
-        date_of_birth: formData.dateOfBirth || undefined, // Date input already provides YYYY-MM-DD format
+        date_of_birth: new Date(formData.dateOfBirth) || undefined, // Date input already provides YYYY-MM-DD format
       }
 
       // Call registration API
