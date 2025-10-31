@@ -1,11 +1,8 @@
 'use client'
 
-// react
-import { useState } from 'react'
-
 // shadcn/ui
 import { Button } from '@/components/ui/button'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -26,64 +23,8 @@ import {
 import clsx from 'clsx'
 
 // local
-import { MarketSymbolType } from '@/lib/types'
-
-const symbols: Array<MarketSymbolType> = [
-  {
-    symbol: 'AUD/USD',
-    type: 'Buy',
-    enter_price: '0.65419',
-    close_price: '0.65419',
-    profit: '+$47.23',
-    icon: '/images/usa-flag.png',
-    price: 0.64732,
-    changeRate: 15.08,
-    isIncreasing: true,
-    status: 'open',
-    date: '06/09/2025',
-    time: '16:32:56',
-    amount: '+$500.00',
-    method: 'Bank',
-    close: '1.2345',
-    volume: '1000'
-  },
-  {
-    symbol: 'ASELSAN',
-    type: 'Sell',
-    enter_price: '0.65419',
-    close_price: '0.65419',
-    profit: '+$47.23',
-    icon: '/images/ASELS.IS.png',
-    price: 0.65708,
-    changeRate: 15.32,
-    isIncreasing: false,
-    status: 'open',
-    date: '06/09/2025',
-    time: '16:32:56',
-    amount: '+$500.00',
-    method: 'Bank',
-    close: '1.2345',
-    volume: '1000'
-  },
-  {
-    symbol: 'GARAN',
-    type: 'Buy',
-    enter_price: '0.65419',
-    close_price: '0.65419',
-    profit: '+$47.23',
-    icon: '/images/GARAN.png',
-    price: 62.45,
-    changeRate: -0.45,
-    isIncreasing: true,
-    status: 'closed',
-    date: '06/09/2025',
-    time: '16:32:56',
-    amount: '+$500.00',
-    method: 'Bank',
-    close: '1.2345',
-    volume: '1000'
-  }
-]
+import { MarketSymbolType, MarketStatusType } from '@/lib/types'
+import { getMarketSymbols, getAllPrices } from '@/lib/api/calls'
 
 interface ComposedTableHeadProps {
   content: string
@@ -159,6 +100,84 @@ ComposedTableRow.displayName = 'ComposedTableRow'
 
 export default function SymbolTable () {
   const [watchlist, setWatchlist] = useState<string[]>([])
+  const [symbols, setSymbols] = useState<MarketSymbolType[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchSymbols = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        
+        // Get available symbols and their prices
+        const [symbolList, prices] = await Promise.all([
+          getMarketSymbols(),
+          getAllPrices()
+        ])
+        
+        // Transform API data to match our component structure
+        const transformedSymbols: MarketSymbolType[] = symbolList.map((symbol: string) => {
+          const priceData = prices[symbol]
+          const price = priceData?.bid || priceData?.ask || 0
+          const changeRate = priceData?.change_percent || 0
+          const isIncreasing = changeRate >= 0
+          
+          // Determine icon based on symbol
+          let icon = '/images/usa-flag.png' // default
+          if (symbol.includes('EUR')) icon = '/images/aus-flag.png'
+          if (symbol.includes('ASELS')) icon = '/images/ASELS.IS.png'
+          if (symbol.includes('GARAN')) icon = '/images/GARAN.png'
+          
+          return {
+            symbol,
+            icon,
+            price: parseFloat(price.toFixed(5)),
+            changeRate: parseFloat(changeRate.toFixed(2)),
+            isIncreasing,
+            status: 'open' // Assume market is open for now
+          }
+        })
+        
+        setSymbols(transformedSymbols)
+      } catch (err: any) {
+        console.error('Error fetching symbols:', err)
+        setError('Failed to load market data')
+        
+        // Fallback to static data if API fails
+        setSymbols([
+          {
+            symbol: 'AUD/USD',
+            icon: '/images/usa-flag.png',
+            price: 0.64732,
+            changeRate: 15.08,
+            isIncreasing: true,
+            status: 'open' as MarketStatusType
+          },
+          {
+            symbol: 'ASELSAN',
+            icon: '/images/ASELS.IS.png',
+            price: 0.65708,
+            changeRate: 15.32,
+            isIncreasing: false,
+            status: 'open' as MarketStatusType
+          },
+          {
+            symbol: 'GARAN',
+            icon: '/images/GARAN.png',
+            price: 62.45,
+            changeRate: -0.45,
+            isIncreasing: true,
+            status: 'closed' as MarketStatusType
+          }
+        ])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSymbols()
+  }, [])
 
   // Toggles symbol in/out of watchlist
   const toggleWatchlist = (symbol: string) => {
@@ -168,6 +187,23 @@ export default function SymbolTable () {
         : [...prev, symbol]
     )
   }
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <span className="text-lg text-[#C8C6C6]">Loading market data...</span>
+      </div>
+    )
+  }
+
+  if (error && symbols.length === 0) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <span className="text-lg text-red-500">{error}</span>
+      </div>
+    )
+  }
+
   return (
     <Table>
       <TableHeader>

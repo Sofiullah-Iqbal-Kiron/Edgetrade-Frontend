@@ -1,14 +1,20 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
+import { placeOrder, getTradingAccounts, getMarketSymbols } from '@/lib/api/calls'
+import { toast } from 'sonner'
 
 interface Props {
   tab: 'Position' | 'Order'
 }
 
 export default function ChartToggle({ tab }: Props) {
+  // Symbol selection
+  const [selectedSymbol, setSelectedSymbol] = useState('AUDCAD')
+  const [symbols, setSymbols] = useState<string[]>([])
+
   // Trade states
   const [tradeVolume, setTradeVolume] = useState('0.01')
   const [tradeStopLoss, setTradeStopLoss] = useState('1.024')
@@ -24,11 +30,28 @@ export default function ChartToggle({ tab }: Props) {
   const [orderStopLossChecked, setOrderStopLossChecked] = useState(false)
   const [orderTakeProfitChecked, setOrderTakeProfitChecked] = useState(false)
 
+  // Fetch available symbols
+  useEffect(() => {
+    const fetchSymbols = async () => {
+      try {
+        const symbolsList = await getMarketSymbols()
+        setSymbols(symbolsList || ['AUDCAD', 'EURUSD', 'GBPUSD', 'USDJPY'])
+      } catch (error) {
+        console.error('Error fetching symbols:', error)
+        setSymbols(['AUDCAD', 'EURUSD', 'GBPUSD', 'USDJPY'])
+      }
+    }
+    fetchSymbols()
+  }, [])
+
   return (
     <div className="relative overflow-hidden">
       <AnimatePresence mode="wait">
         {tab === 'Position' ? (
           <Chart
+            selectedSymbol={selectedSymbol}
+            symbols={symbols}
+            onSymbolChange={setSelectedSymbol}
             volume={tradeVolume}
             setVolume={setTradeVolume}
             stopLoss={tradeStopLoss}
@@ -42,6 +65,9 @@ export default function ChartToggle({ tab }: Props) {
           />
         ) : (
           <Order
+            selectedSymbol={selectedSymbol}
+            symbols={symbols}
+            onSymbolChange={setSelectedSymbol}
             volume={orderVolume}
             setVolume={setOrderVolume}
             price={orderPrice}
@@ -62,6 +88,9 @@ export default function ChartToggle({ tab }: Props) {
 }
 
 interface ChartProps {
+  selectedSymbol: string
+  symbols: string[]
+  onSymbolChange: (symbol: string) => void
   volume: string
   setVolume: (v: string) => void
   stopLoss: string
@@ -75,6 +104,9 @@ interface ChartProps {
 }
 
 function Chart({
+  selectedSymbol,
+  symbols,
+  onSymbolChange,
   volume,
   setVolume,
   stopLoss,
@@ -95,7 +127,7 @@ function Chart({
       transition={{ duration: 0.28, ease: 'easeInOut' }}
       className="space-y-3 "
     >
-      <SelectPair label="AUDCAD" />
+      <SelectPair label={selectedSymbol} symbols={symbols} onSelect={onSymbolChange} />
       <InputRow label="VOLUME" value={volume} onChange={setVolume} />
       <InfoText text="Margin Required: 3.44$" className="text-center text-[#767676]" />
       <InputRowCircle
@@ -113,7 +145,15 @@ function Chart({
         onCheckChange={setTakeProfitChecked}
       />
       <SummaryBox />
-      <ActionButtons />
+      <ActionButtons 
+        symbol={selectedSymbol}
+        volume={volume}
+        stopLoss={stopLoss}
+        takeProfit={takeProfit}
+        stopLossChecked={stopLossChecked}
+        takeProfitChecked={takeProfitChecked}
+        orderType="market"
+      />
     </motion.div>
   )
 }
@@ -124,6 +164,9 @@ interface OrderProps extends ChartProps {
 }
 
 function Order({
+  selectedSymbol,
+  symbols,
+  onSymbolChange,
   volume,
   setVolume,
   price,
@@ -146,7 +189,7 @@ function Order({
       transition={{ duration: 0.28, ease: 'easeInOut' }}
       className="space-y-3"
     >
-      <SelectPair label="AUDCAD" />
+      <SelectPair label={selectedSymbol} symbols={symbols} onSelect={onSymbolChange} />
       <InputRow label="VOLUME" value={volume} onChange={setVolume} />
       <InputRow label="PRICE" value={price} onChange={setPrice} />
       <InfoText text="Margin Required: 3.44$" className="text-center text-[#767676]" />
@@ -164,16 +207,49 @@ function Order({
         checked={takeProfitChecked}
         onCheckChange={setTakeProfitChecked}
       />
-      <ActionButtons />
+      <ActionButtons 
+        symbol={selectedSymbol}
+        volume={volume}
+        stopLoss={stopLoss}
+        takeProfit={takeProfit}
+        stopLossChecked={stopLossChecked}
+        takeProfitChecked={takeProfitChecked}
+        orderType="limit"
+        price={price}
+      />
     </motion.div>
   )
 }
 
-function SelectPair({ label }: { label: string }) {
+function SelectPair({ label, symbols = [], onSelect = () => {} }: { label: string, symbols?: string[], onSelect?: (symbol: string) => void }) {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <div className="flex justify-between items-center bg-white border border-gray-200 p-3 rounded-lg">
-      <span className=" font-bold">{label}</span>
-      <IoIosArrowDown size={18} className="text-[#707070]" />
+    <div className="relative">
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex justify-between items-center bg-white border border-gray-200 p-3 rounded-lg cursor-pointer"
+      >
+        <span className="font-bold">{label}</span>
+        <IoIosArrowDown size={18} className="text-[#707070]" />
+      </div>
+      
+      {isOpen && symbols.length > 0 && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-10">
+          {symbols.map((symbol) => (
+            <div
+              key={symbol}
+              onClick={() => {
+                onSelect(symbol)
+                setIsOpen(false)
+              }}
+              className="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+            >
+              <span className="font-bold">{symbol}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -271,13 +347,83 @@ function SummaryBox({ className = '' }: { className?: string }) {
   )
 }
 
-function ActionButtons({ className = '' }: { className?: string }) {
+interface ActionButtonsProps {
+  className?: string
+  symbol?: string
+  volume?: string
+  stopLoss?: string
+  takeProfit?: string
+  stopLossChecked?: boolean
+  takeProfitChecked?: boolean
+  orderType?: 'market' | 'limit'
+  price?: string
+}
+
+function ActionButtons({ 
+  className = '', 
+  symbol = 'AUDCAD',
+  volume = '0.01',
+  stopLoss,
+  takeProfit,
+  stopLossChecked = false,
+  takeProfitChecked = false,
+  orderType = 'market',
+  price
+}: ActionButtonsProps) {
+  const [isLoading, setIsLoading] = useState<'sell' | 'buy' | null>(null)
+
+  const handleOrder = async (side: 'buy' | 'sell') => {
+    setIsLoading(side)
+    
+    try {
+      // Get user's first trading account
+      const accounts = await getTradingAccounts()
+      if (!accounts || accounts.length === 0) {
+        toast.error('No trading account found. Please create an account first.')
+        return
+      }
+      
+      const accountId = accounts[0].id
+      
+      // Prepare order data
+      const orderData = {
+        account_id: accountId,
+        symbol: symbol.replace('/', ''),
+        order_type: orderType,
+        side: side,
+        quantity: parseFloat(volume),
+        ...(orderType === 'limit' && price && { price: parseFloat(price) }),
+        ...(stopLossChecked && stopLoss && { stop_loss: parseFloat(stopLoss) }),
+        ...(takeProfitChecked && takeProfit && { take_profit: parseFloat(takeProfit) })
+      }
+      
+      // Place order
+      const response = await placeOrder(orderData)
+      
+      toast.success(`${side.toUpperCase()} order placed successfully!`)
+      
+    } catch (error: any) {
+      console.error('Order error:', error)
+      toast.error(error.response?.data?.detail || `Failed to place ${side} order`)
+    } finally {
+      setIsLoading(null)
+    }
+  }
+
   return (
     <div className={`flex gap-3 ${className}`}>
-      <button className="flex-1 flex flex-col py-2 bg-red-500 text-white font-bold rounded-[6px] shadow-md text-sm active:scale-95 transition-all">
+      <button 
+        onClick={() => handleOrder('sell')}
+        disabled={isLoading !== null}
+        className="flex-1 flex flex-col py-2 bg-red-500 text-white font-bold rounded-[6px] shadow-md text-sm active:scale-95 transition-all disabled:opacity-50"
+      >
         SELL <span className="font-normal text-xs">0.546489</span>
       </button>
-      <button className="flex-1 flex flex-col py-2 bg-green-500 text-white font-bold rounded-[6px] shadow-md text-sm active:scale-95 transition-all">
+      <button 
+        onClick={() => handleOrder('buy')}
+        disabled={isLoading !== null}
+        className="flex-1 flex flex-col py-2 bg-green-500 text-white font-bold rounded-[6px] shadow-md text-sm active:scale-95 transition-all disabled:opacity-50"
+      >
         BUY <span className="font-normal text-xs">0.546489</span>
       </button>
     </div>

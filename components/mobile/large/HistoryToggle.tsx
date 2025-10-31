@@ -7,6 +7,8 @@ import Image from 'next/image'
 import usdtLogo from '@/public/logo/USDT - Tether.png'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '@/components/ui/input'
+import { useEffect, useState } from 'react'
+import { getTrades, getTradingAccounts } from '@/lib/api/calls'
 
 interface HistoryToggleProps {
   tab: 'Trade' | 'Transaction'
@@ -37,8 +39,6 @@ import clsx from 'clsx'
 
 // local
 import { MarketSymbolType } from '@/lib/types'
-import { useState } from 'react'
-// import { useState } from 'react'
 
 const symbols: Array<MarketSymbolType> = [
   {
@@ -314,10 +314,63 @@ export const ComposedTableRowTransaction = React.forwardRef<
 )
 
 export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
+  const [trades, setTrades] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // Fetch trades from API
+  useEffect(() => {
+    const fetchTrades = async () => {
+      try {
+        const accounts = await getTradingAccounts()
+        if (accounts && accounts.length > 0) {
+          const tradesData = await getTrades(accounts[0].id)
+          // Transform API data to match component structure
+          const transformedTrades = (tradesData.trades || []).map((trade: any) => ({
+            symbol: trade.symbol || 'UNKNOWN',
+            type: trade.side || 'Buy',
+            enter_price: trade.entry_price?.toFixed(5) || '0.00000',
+            close_price: trade.exit_price?.toFixed(5) || '0.00000',
+            profit: trade.net_profit_loss > 0 
+              ? `+$${trade.net_profit_loss.toFixed(2)}` 
+              : `$${trade.net_profit_loss.toFixed(2)}`,
+            icon: '/images/usa-flag.png',
+            price: trade.exit_price || 0,
+            changeRate: 0,
+            isIncreasing: trade.net_profit_loss >= 0,
+            status: 'closed',
+            date: trade.closed_at ? new Date(trade.closed_at).toLocaleDateString() : 'N/A',
+            time: trade.closed_at ? new Date(trade.closed_at).toLocaleTimeString() : 'N/A',
+            amount: `$${Math.abs(trade.net_profit_loss).toFixed(2)}`,
+            method: 'Trade',
+            close: 'Closed',
+            volume: trade.quantity?.toFixed(2) || '0.00'
+          }))
+          setTrades(transformedTrades)
+        } else {
+          // Use static data if no accounts
+          setTrades(symbols)
+        }
+      } catch (error) {
+        console.error('Error fetching trades:', error)
+        // Fallback to static data
+        setTrades(symbols)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchTrades()
+  }, [])
+
   return (
     <div className='relative overflow-hidden'>
-      <AnimatePresence mode='wait'>
-        {tab === 'Trade' ? (
+      {loading ? (
+        <div className="flex justify-center items-center py-8">
+          <span className="text-lg text-[#C8C6C6]">Loading trade history...</span>
+        </div>
+      ) : (
+        <AnimatePresence mode='wait'>
+          {tab === 'Trade' ? (
           <motion.div
             key='Trade'
             initial={{ opacity: 0, x: 20 }}
@@ -352,7 +405,7 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
                     </TableHeader>
 
                     <TableBody>
-                      {symbols.map((symbol, idx) => (
+                      {trades.map((symbol, idx) => (
                         <Sheet key={`symbol-table-row-${idx}`}>
                           <SheetTrigger asChild>
                             <ComposedTableRow {...symbol} />
@@ -586,6 +639,7 @@ export default function HistoryToggle ({ tab, tradeView }: HistoryToggleProps) {
           </motion.div>
         )}
       </AnimatePresence>
+      )}
     </div>
   )
 }

@@ -32,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
         style={{ fontFamily: 'Arial, sans-serif' }}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"

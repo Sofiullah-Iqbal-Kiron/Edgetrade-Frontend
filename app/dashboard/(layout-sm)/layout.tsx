@@ -1,11 +1,38 @@
+'use client'
+
 import { TopNav } from '@/components/mobile/navs'
 import { SubContainer } from '@/components/mobile/containers'
+import { useEffect, useState } from 'react'
+import { getUserProfile, getTradingAccounts } from '@/lib/api/calls'
 
 export default function DashboardSmallLayout ({
   children
 }: {
   children: React.ReactNode
 }) {
+  const [userName, setUserName] = useState('')
+  const [accountNumber, setAccountNumber] = useState('')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const profile = await getUserProfile()
+        const accounts = await getTradingAccounts()
+        const accountNum = accounts && accounts.length > 0 ? accounts[0].account_number : ''
+        
+        setUserName(`${profile.first_name || ''} ${profile.last_name || ''}`.trim().toUpperCase())
+        setAccountNumber(accountNum)
+      } catch (error) {
+        console.error('Error fetching user info:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchUserInfo()
+  }, [])
+
   return (
     <div className='bg-white lg:hidden'>
       {/* Top Blue Header */}
@@ -14,9 +41,11 @@ export default function DashboardSmallLayout ({
       <div className='absolute top-14 left-0 right-0 px-4'>
         <TopNav />
       </div>
-      <p className='font-bold text-center text-sm mt-[52px]'>
-        EMMA BROWN 90993789 - USD
-      </p>
+      {!loading && (
+        <p className='font-bold text-center text-sm mt-[52px]'>
+          {userName} {accountNumber && `- ${accountNumber}`} - USD
+        </p>
+      )}
 
       {/* Page Content */}
       <div className='mt-[10px] px-4'>

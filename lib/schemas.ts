@@ -46,7 +46,7 @@ type SignUpSchemaType = z.infer<typeof SignUpSchema>
 
 const SignInSchema = z.object({
     email: emailField,
-    password: passwordField,
+    password: z.string().min(1, "Password is required."),
     staySignedIn: z.boolean().default(false),
 })
 type SignInSchemaType = z.infer<typeof SignInSchema>

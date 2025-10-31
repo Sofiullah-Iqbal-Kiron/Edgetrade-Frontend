@@ -4,19 +4,63 @@
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { User as UserIcon } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Label } from '@radix-ui/react-label'
 import userIcon from '@/public/logo/user-icon.svg'
 import Image from 'next/image'
+import { getUserProfile, getTradingAccounts } from '@/lib/api/calls'
+import { toast } from 'sonner'
+
 export default function PersonalInformationPage () {
-  // Fake user data
   const [userData, setUserData] = useState({
-    'first-name': 'Emma',
-    'last-name': 'Brown',
-    email: 'edgetrade@gmail.com',
-    id: '0218704976265',
-    dob: '12/08/1995'
+    'first-name': '',
+    'last-name': '',
+    email: '',
+    id: '',
+    dob: ''
   })
+  const [loading, setLoading] = useState(true)
+  const [accountNumber, setAccountNumber] = useState('')
+
+  // Fetch user profile data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setLoading(true)
+        
+        // Get user profile
+        const profile = await getUserProfile()
+        
+        // Get first trading account
+        const accounts = await getTradingAccounts()
+        const accountNum = accounts && accounts.length > 0 ? accounts[0].account_number : ''
+        
+        // Format date of birth
+        let dob = ''
+        if (profile.date_of_birth) {
+          const date = new Date(profile.date_of_birth)
+          dob = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
+        }
+        
+        setUserData({
+          'first-name': profile.first_name || '',
+          'last-name': profile.last_name || '',
+          email: profile.email || '',
+          id: profile.id_number || '',
+          dob: dob
+        })
+        
+        setAccountNumber(accountNum)
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+        toast.error('Failed to load profile data')
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchUserData()
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
@@ -25,11 +69,20 @@ export default function PersonalInformationPage () {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Updated user data:', userData)
+    toast.success('Document upload would be processed here')
   }
 
   return (
     <div className=''>
+      {/* User Info Header */}
+      {loading ? (
+        <div className='px-4 py-2 text-center'>Loading...</div>
+      ) : (
+        <div className='px-4 py-2 text-center text-sm font-semibold text-gray-700'>
+          {userData['first-name']} {userData['last-name']} {accountNumber && `- ${accountNumber}`} - USD
+        </div>
+      )}
+      
       {/* Header Section */}
       <div className='px-4 flex flex-col items-center'>
         <h1 className='text-[12px] font-bold text-center text-[#272525]'>
