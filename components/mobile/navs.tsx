@@ -141,11 +141,10 @@ const bottomNavSet: Array<NavItemType> = [
 
 function NavItem(item: NavItemType) {
   const pathname = usePathname()
-  const activeNav = useActiveNav()
   const setActiveNav = useSetActiveNav()
 
   // ✅ Fix: highlight on first click using URL
-  const isActive = pathname === item.link || activeNav === item.label
+  const isActive = pathname === item.link
   const isTop = item.variant === "top"
   const Icon = item.icon
 
@@ -165,7 +164,7 @@ function NavItem(item: NavItemType) {
             "flex items-center justify-center rounded-[12px]",
             isActive &&
             (isTop
-              ? "bg-topnav-blue text-white w-10 h-10 p-[6px]"
+              ? "bg-normal-blue text-white w-10 h-10 p-[6px]"
               : "bg-accent text-primary w-10 h-10 p-[6px]")
           )}
         >
@@ -177,7 +176,7 @@ function NavItem(item: NavItemType) {
             "transition-all rounded-[12px]",
             isActive &&
             (isTop
-              ? "bg-topnav-blue text-white w-10 h-10 p-[6px]"
+              ? "bg-normal-blue text-white w-10 h-10 p-[6px]"
               : "bg-accent text-primary w-10 h-10 p-[6px]")
           )}
           size={25}
