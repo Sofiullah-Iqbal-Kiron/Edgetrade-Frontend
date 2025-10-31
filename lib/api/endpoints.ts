@@ -1,6 +1,6 @@
 // Backend API endpoints.
 
-const API_BASE_V1 = "http://91.108.122.156/api/v1"
+const API_BASE_V1 = "https://edgetade-backend-2.onrender.com/api/v1"
 
 export const endpoints = {
     // Authentication
