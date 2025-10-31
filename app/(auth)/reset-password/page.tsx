@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import signinLogo from '../../../public/logo/signin-top-logo.png'
 import Image from 'next/image'
-import { verifyResetCode, resetPassword } from '@/lib/api/calls'
+import { verifyResetCode, resetPassword, forgotPassword } from '@/lib/api/calls'
 
 export default function ResetPasswordPage() {
   const router = useRouter()
